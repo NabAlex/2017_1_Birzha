@@ -1,5 +1,4 @@
 import './conf'
-
 import { routerInstance } from './router';
 
 import About from './blocks/about/about'
