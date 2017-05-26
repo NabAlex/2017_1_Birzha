@@ -3,7 +3,7 @@ import './conf'
 import { routerInstance } from './router';
 
 import About from './blocks/about/about'
-import serviceWorkerLoader from '../worker_loader';
+import serviceWorkerLoader from '../../worker_loader';
 
 import { isLogin, setOnlyBar } from './util';
 
