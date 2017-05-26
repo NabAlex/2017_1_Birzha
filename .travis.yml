@@ -19,5 +19,5 @@ script:
   - npm start
   - webpack
   - docker login --email=inwady@gmail.com --username=inwady@gmail.com --password=$(echo $API_KEY) registry.heroku.com
-  - docker build -t registry.heroku.com/testappinwady/web .
-  - docker push registry.heroku.com/testappinwady/web
+  - docker build -t registry.heroku.com/cyclicgame/web .
+  - docker push registry.heroku.com/cyclicgame/web
