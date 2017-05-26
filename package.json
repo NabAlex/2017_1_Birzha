@@ -21,6 +21,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-install": "^1.1.0",
+    "node-sass": "^4.5.3",
     "pug": "^2.0.0-beta11",
     "pug-cli": "^1.0.0-alpha6",
     "recursive-readdir": "^2.2.1",

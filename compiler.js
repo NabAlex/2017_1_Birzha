@@ -1,45 +1,37 @@
-const pug = require("pug");
 const recursive = require("recursive-readdir");
 const fs = require("fs");
 
 function getInfoFile(filename) {
     let finalFile = filename.split("/");
+    let info = finalFile[finalFile.length - 1].split(".");
+
     return {
-        name: finalFile[finalFile.length - 1].split(".")[0],
-        type: finalFile[finalFile.length - 1].split(".")[1]
+        name: info[0],
+        type: info[info.length - 1]
     };
 }
 
-function pugFile(filename, info) {
-    if(filename.endsWith(".pug")) {
-        let data = fs.readFileSync(filename, 'utf8');
+function pugFile(filename, info, renderFunc) {
+    let data = fs.readFileSync(filename, 'utf8');
 
-        let compiled = pug.compileClient(data, {
-            compileDebug: false,
-            name: info.name
-        });
-
-        compiled += "\nexport default " + info.name + ";";
-        return compiled;
-    }
-
-    return null;
+    compiled = renderFunc(data, info.name);
+    return compiled;
 }
 
-function pugFiles(files, callbackContent) {
+function pugFiles(files, renderFunc, acceptTypes, outType, callbackContent) {
     files.forEach((filename) => {
         let out = getInfoFile(filename);
-        if(out.type !== "pug")
+        if(acceptTypes.indexOf(out.type) < 0)
             return null;
 
-        out.type = "js";
+        out.type = outType;
         callbackContent(
-            pugFile(filename, out), out.name + "." + out.type
+            pugFile(filename, out, renderFunc), out.name + "." + out.type
         );
     });
 }
 
-module.exports = function(includesArray, finalPath) {
+module.exports = function(includesArray, finalPath, acceptTypes, outType, renderFunc) {
     if (!fs.existsSync(finalPath)){
         fs.mkdirSync(finalPath);
     }
@@ -49,7 +41,7 @@ module.exports = function(includesArray, finalPath) {
 
     includesArray.forEach((dir) => {
         recursive(dir, function(err, files) {
-            pugFiles(files, (pugText, newFileName) => {
+            pugFiles(files, renderFunc, acceptTypes, outType, (pugText, newFileName) => {
                 if(pugText != null)
                     fs.writeFile(finalPath + newFileName, pugText, function(err) {
                         if(err) {
