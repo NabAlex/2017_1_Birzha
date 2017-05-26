@@ -6,7 +6,8 @@ node_js:
   - 7
 
 on:
-    branch: travis.test
+    branch: 
+        nginx
 
 services:
   - docker
