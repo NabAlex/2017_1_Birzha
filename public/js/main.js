@@ -32,4 +32,5 @@ import {
     /* start clickable all objects !!! */
     routerInstance.start();
     routerInstance.startPage(url);
+    
 })();
