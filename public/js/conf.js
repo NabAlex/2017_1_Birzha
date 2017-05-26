@@ -1,6 +1,6 @@
 window.mainConfiguration = {
     debugMode: false,
-    needAppCache: false,
+    needAppCache: true,
 
     roomTypes: [2, 3, 4, 5],
     roomPrefix: "Required ? more player", /* ? ~ number of current count */
