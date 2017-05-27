@@ -200,11 +200,10 @@ class User extends GameObject {
         let result = json["result"];
         let valueUpdate = json["valueUpdate"];
         if(result === "ACCEPT_LOSE"){
-            if(!this.waitNode || !this.waitUnits)
-                return;
-
-            let fromNode = this.waitNode;
-            fromNode.data.units -= this.waitUnits;
+            if(this.waitNode && this.waitUnits) {
+                let fromNode = this.waitNode;
+                fromNode.data.units -= this.waitUnits;
+            }
 
             if(valueUpdate) {
                 valueUpdate = valueUpdate.filter((item)=>{
