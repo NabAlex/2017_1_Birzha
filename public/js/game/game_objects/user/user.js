@@ -207,12 +207,12 @@ class User extends GameObject {
             fromNode.data.units -= this.waitUnits;
 
             if(valueUpdate) {
-                let valueUpdate = valueUpdate.filter((item) = > {
+                let valueUpdate = valueUpdate.filter((item)=>{
                     let tower = this.world.getTowerFromMap({x: item.x, y: item.y});
                     return (tower.client_id === this.pid);
                 });
 
-                valueUpdate.forEach((item) = > {
+                valueUpdate.forEach((item)=>{
                     let newUnits = update["value"];
                     this.world.getTowerFromMap({x: item.x, y: item.y}).changeUnits(newUnits);
                 });
@@ -223,8 +223,8 @@ class User extends GameObject {
 
         if(newNodes) {
 
-            let myNewNode = newNodes.find((item) = > {
-                return (item.pid === this.pid );
+            let myNewNode = newNodes.find((item)=>{
+                return (item.pid === this.pid);
             });
 
             if (myNewNode) {
