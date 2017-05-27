@@ -213,8 +213,8 @@ class User extends GameObject {
                 });
 
                 valueUpdate.forEach((item)=>{
-                    let newUnits = update["value"];
-                    this.world.getTowerFromMap({x: item.x, y: item.y}).changeUnits(newUnits);
+                    let newUnits = item["value"];
+                    this.world.getTowerFromMap({x: item["x"], y: item["y"]}).changeUnits(newUnits);
                 });
             }
         }
