@@ -198,8 +198,23 @@ class User extends GameObject {
 
     acceptMove(json) {
         let result = json["result"];
+        let valueUpdate = json["valueUpdate"];
         if(result === "ACCEPT_LOSE"){
+            if(!this.waitNode || !this.waitUnits)
+                return;
 
+            let fromNode = this.waitNode;
+            fromNode.data.units -= this.waitUnits;
+
+            let valueUpdate = valueUpdate.filter((item)=>{
+                let tower = this.world.getTowerFromMap({x:item.x, y:item.y});
+                return (tower.client_id === this.pid);
+            });
+
+            valueUpdate.forEach((item)=>{
+                let newUnits = update["value"];
+                this.world.getTowerFromMap({x:item.x, y:item.y}).changeUnits(newUnits);
+            });
         }
 
         let newNodes = json["newNodes"];
