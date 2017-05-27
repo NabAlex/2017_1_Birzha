@@ -195,9 +195,8 @@ class PlayPage extends BasePage {
                     });
                 }
 
-                if (pid === this.user.pid)
-                    if (result === "ACCEPT_WIN" || result === "ACCEPT_LOSE")
-                        this.user.acceptMove(json);
+                if (result === "ACCEPT_WIN" || result === "ACCEPT_LOSE")
+                    this.user.acceptMove(json);
 
                 if (newLinks) {
                     newLinks.forEach((newLink) => {
