@@ -207,7 +207,7 @@ class User extends GameObject {
             fromNode.data.units -= this.waitUnits;
 
             if(valueUpdate) {
-                let valueUpdate = valueUpdate.filter((item)=>{
+                valueUpdate = valueUpdate.filter((item)=>{
                     let tower = this.world.getTowerFromMap({x: item.x, y: item.y});
                     return (tower.client_id === this.pid);
                 });
