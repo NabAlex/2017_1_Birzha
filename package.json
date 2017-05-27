@@ -25,7 +25,8 @@
     "pug": "^2.0.0-beta11",
     "pug-cli": "^1.0.0-alpha6",
     "recursive-readdir": "^2.2.1",
-    "webpack": "^2.3.3"
+    "webpack": "^2.3.3",
+    "bootstrap": "^3.3.7"
   },
   "babel": {
     "presets": [
@@ -36,6 +37,7 @@
     "babel-core": "^6.24.1",
     "babel-loader": "^6.4.1",
     "babel-preset-latest": "^6.24.1",
+    "bootstrap": "^3.3.7",
     "webpack": "^2.5.1"
   }
 }
