@@ -206,41 +206,46 @@ class User extends GameObject {
             let fromNode = this.waitNode;
             fromNode.data.units -= this.waitUnits;
 
-            let valueUpdate = valueUpdate.filter((item)=>{
-                let tower = this.world.getTowerFromMap({x:item.x, y:item.y});
-                return (tower.client_id === this.pid);
-            });
+            if(valueUpdate) {
+                let valueUpdate = valueUpdate.filter((item) = > {
+                    let tower = this.world.getTowerFromMap({x: item.x, y: item.y});
+                    return (tower.client_id === this.pid);
+                });
 
-            valueUpdate.forEach((item)=>{
-                let newUnits = update["value"];
-                this.world.getTowerFromMap({x:item.x, y:item.y}).changeUnits(newUnits);
-            });
+                valueUpdate.forEach((item) = > {
+                    let newUnits = update["value"];
+                    this.world.getTowerFromMap({x: item.x, y: item.y}).changeUnits(newUnits);
+                });
+            }
         }
 
         let newNodes = json["newNodes"];
 
-        let myNewNode = newNodes.find((item)=>{
-            return (item.pid === this.pid);
-        });
+        if(newNodes) {
 
-        if(myNewNode){
-            if(!this.waitNode || !this.waitUnits)
-                return;
+            let myNewNode = newNodes.find((item) = > {
+                return (item.pid === this.pid );
+            });
 
-            let fromNode = this.waitNode;
-            let unitsCount = this.waitUnits;
-            let newUnits = myNewNode.value;
-            let newPoint = {
-                x: myNewNode.x,
-                y: myNewNode.y
-            };
-            fromNode.data.units -= unitsCount;
+            if (myNewNode) {
+                if (!this.waitNode || !this.waitUnits)
+                    return;
 
-            let tower = this.generateMyTower(newPoint, newUnits);
-            this.world.addTowerToMap(newPoint, tower);
+                let fromNode = this.waitNode;
+                let unitsCount = this.waitUnits;
+                let newUnits = myNewNode.value;
+                let newPoint = {
+                    x: myNewNode.x,
+                    y: myNewNode.y
+                };
+                fromNode.data.units -= unitsCount;
 
-            let newNode = this.myGraph.addNewVertexByNode(tower, fromNode);
-            this.setTowerNode(tower, newNode);
+                let tower = this.generateMyTower(newPoint, newUnits);
+                this.world.addTowerToMap(newPoint, tower);
+
+                let newNode = this.myGraph.addNewVertexByNode(tower, fromNode);
+                this.setTowerNode(tower, newNode);
+            }
         }
 
         this.drawObject();
