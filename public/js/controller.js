@@ -23,16 +23,11 @@ function registrationCall(event) {
     ifError("");
 
     let regData = registrationForm.getFormData();
-    if(regData['password'] !== regData['password_repeat']) {
-        ifError("Password is not equals!");
-        return;
-    }
-
-    delete regData['password_repeat'];
 
     auth.register(regData,
         () => { console.log("Success login !"); routerInstance.go("/login"); },
-        () => { console.log("Fail login !"); }
+        () => {ifError("There is no connection to server. Try again later")},
+        (data) => { ifError(data);}
     );
 }
 
@@ -60,7 +55,8 @@ function loginCall(event) {
                 () => { ifError("Wrong login or password!"); console.log("cannot login in getMe!"); }
             )
         },
-        () => { ifError("No connection to server"); console.log("Fail login !"); }
+        () => {ifError("There is no connection to server. Try again later")},
+        (data) => { ifError(data);}
     );
 }
 function logoutCall(event) {

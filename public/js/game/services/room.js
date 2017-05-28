@@ -3,7 +3,7 @@ class Room {
         this.meId = id;
         this.meNickName = nickName;
 
-        this.players = new Array(conf.countUsersInRoom);
+        this.players = [];
 
         this.roomId = -1;
         this.pid = -1;

@@ -32,7 +32,7 @@ class Auth {
             });
     }
 
-    auth(data, success, error) {
+    auth(data, success, errorServer, errorClient) {
         let status = false;
         new Request(conf.ip[conf.baseIP].prefix + conf.ip[conf.baseIP].host + conf.ip[conf.baseIP].port + '/api')
             .addResponse(function (response) {
@@ -40,7 +40,9 @@ class Auth {
                 if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' +
                         response.status);
-                    error();
+                    response.json().then((json) => {
+                        errorClient(json.status);
+                    });
                     return;
                 }
                 this.logged = true;
@@ -48,8 +50,7 @@ class Auth {
             }.bind(this))
             .addJson(data)
             .error(function (err) {
-                console.log("[ERROR] Error response in login");
-                error();
+                errorServer();
             }.bind(this))
             .request('/login', {
                 method: 'POST'
@@ -89,7 +90,7 @@ class Auth {
         return status;
     }
 
-    register(data, success, error) {
+    register(data, success, errorServer, errorClient) {
         let status = false;
         new Request(conf.ip[conf.baseIP].prefix + conf.ip[conf.baseIP].host + conf.ip[conf.baseIP].port + '/api')
             .addResponse(function (response) {
@@ -97,19 +98,22 @@ class Auth {
                 if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' +
                         response.status);
-                    error();
+                    response.json().then((json) => {
+                        errorClient(json.status);
+                    });
                     return;
                 }
+                this.logged = true;
                 success();
             }.bind(this))
             .addJson(data)
             .error(function (err) {
-                console.log("[ERROR] Error response in register");
-                error();
+                errorServer();
             }.bind(this))
             .request('/user', {
                 method: 'PUT'
             });
+
         return status;
     }
 

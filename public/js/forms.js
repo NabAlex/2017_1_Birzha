@@ -58,6 +58,13 @@ export let loginForm = new LoginForm({
                 text: 'Login',
                 attrs: {
                     type: 'submit',
+                    class: 'btn btn-success login-form__button login-form__button_red'
+                }
+            },
+            {
+                text: 'Play as guest',
+                attrs: {
+                    type: 'submit',
                     class: 'btn btn-default login-form__button login-form__button_red'
                 }
             }
@@ -84,11 +91,6 @@ export let registrationForm = new RegistrationForm({
                 name: 'password',
                 type: 'password',
                 placeholder: 'Password'
-            },
-            {
-                name: 'password_repeat',
-                type: 'password',
-                placeholder: 'Repeat'
             }
         ],
         controls: [

@@ -49,8 +49,6 @@ window.conf = {
     ],
     baseIP: 5,
 
-    countUsersInRoom: 2,
-
     // UI
     rectSize: 100,
     borderSize: 8,

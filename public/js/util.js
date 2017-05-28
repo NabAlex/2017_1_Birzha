@@ -40,25 +40,33 @@ function setLoginCookies(flag, name) {
 }
 
 export function setOnlyBar() {
-    let title = document.getElementById('registered');
-    if (title)
-        title.textContent = getCookie('login');
+    let title = document.getElementById('nickname');
+    let uname = getCookie('login');
+    debugger;
+    if (uname === "") {
+        title.style.display = "none";
+    }
+    else {
+        document.getElementById('nicknameT').textContent = uname;
+        title.style.display = "default";
+    }
 }
 
 export function setCookiesAndBar(authFlag, name) {
-    name = name || 'Guest';
+    name = name || '';
 
     setLoginCookies(authFlag, name);
-
-    if(authFlag)
-        setOnlyBar();
-    else
-        setLoginCookies(authFlag, name);
+    setOnlyBar();
+    // if(authFlag)
+    //
+    // else
+    //     setLoginCookies(authFlag, name);
 }
+
 
 export function isLogin() {
     let status = getCookie('logged');
-    if (status == "true") {
+    if (status === "true") {
         console.log("Already login!");
         return true;
     } else
