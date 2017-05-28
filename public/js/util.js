@@ -40,15 +40,16 @@ function setLoginCookies(flag, name) {
 }
 
 export function setOnlyBar() {
-    let title = document.getElementById('nickname');
+    let title = document.getElementById('nicknameT');
     let uname = getCookie('login');
-    debugger;
     if (uname === "") {
-        title.style.display = "none";
+        // title.style.display = "none";
+        title.textContent = "";
+        title.hidden = true;
     }
     else {
-        document.getElementById('nicknameT').textContent = uname;
-        title.style.display = "default";
+        title.textContent = uname;
+        title.hidden = false;
     }
 }
 

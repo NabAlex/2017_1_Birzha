@@ -64,7 +64,8 @@ export let loginForm = new LoginForm({
             {
                 text: 'Play as guest',
                 attrs: {
-                    type: 'submit',
+                    type: 'button',
+                    id: 'buttonGuest',
                     class: 'btn btn-default login-form__button login-form__button_red'
                 }
             }

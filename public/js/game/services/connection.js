@@ -45,7 +45,6 @@ class Connection {
     }
 
     deleteListenIndex(nameMethod, id) {
-        debugger;
         if(nameMethod in this.methodMap) {
             this.methodMap[nameMethod].splice(id, 1);
             console.log(this.methodMap[nameMethod]);

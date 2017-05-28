@@ -46,7 +46,7 @@ class Auth {
                     return;
                 }
                 this.logged = true;
-                success();
+                success(response);
             }.bind(this))
             .addJson(data)
             .error(function (err) {
@@ -59,6 +59,27 @@ class Auth {
         return status;
     }
 
+    authTemporary(success, errorServer) {
+        new Request(conf.ip[conf.baseIP].prefix + conf.ip[conf.baseIP].host + conf.ip[conf.baseIP].port + '/api')
+            .addResponse(function (response) {
+                console.log(response);
+                if (response.status !== 200) {
+                    // TODO return bad request
+                    return;
+                }
+
+                this.logged = true;
+
+                success(response);
+            }.bind(this))
+            .addJson({})
+            .error(function (err) {
+                errorServer();
+            }.bind(this))
+            .request('/login/temporary', {
+                method: 'POST'
+            });
+    }
 
     checkAuth(success, error) {
         let status = false;

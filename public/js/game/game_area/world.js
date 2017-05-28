@@ -40,6 +40,26 @@ class World {
         }
         this.zoom = this.area.zoom;
         this.elemDOM = elementDOM;
+
+        this.toTopArray = [];
+    }
+
+    addContainerToTop(container) {
+        if(!container)
+            return;
+
+        debugger;
+
+        this.toTopArray.push(container);
+    }
+
+    drawTopContainers() {
+        // debugger;
+        let getMaxIndex = this.stage.getNumChildren();
+        for(let container of this.toTopArray) {
+            this.stage.setChildIndex(container, 0);
+            getMaxIndex++;
+        }
     }
 
     get basicCenter() {
@@ -55,6 +75,7 @@ class World {
     }
 
     update() {
+        this.drawTopContainers();
         this.stage.update();
     }
 
@@ -137,6 +158,9 @@ class World {
     }
 
     clear(){
+        while(this.toTopArray)
+            this.toTopArray.pop();
+
         this.map.removeAllChildren();
         this.area.setSize();
         this.area.reconfigure();

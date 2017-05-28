@@ -11,6 +11,8 @@ import { routerInstance } from './router';
 
 import { registrationForm, loginForm, menuForm } from './forms'
 
+import { Request } from './request';
+
 let auth = new Auth();
 
 function registrationCall(event) {
@@ -31,6 +33,11 @@ function registrationCall(event) {
     );
 }
 
+function successLogin(login) {
+    routerInstance.updateNewPackToIndex(mainPack);
+    setCookiesAndBar(true, login);
+}
+
 function loginCall(event) {
     event.preventDefault();
 
@@ -44,21 +51,31 @@ function loginCall(event) {
     let loginData = loginForm.getFormData();
 
     auth.auth(loginData,
-        () => {
-            auth.getMe(
-                (user) => {
-                    console.log("Success login !");
-                    routerInstance.updateNewPackToIndex(mainPack);
+        (data) => {
+            data.json().then((json) => {
+                console.log("Success enter!");
 
-                    setCookiesAndBar(true, user.login);
-                },
-                () => { ifError("Wrong login or password!"); console.log("cannot login in getMe!"); }
-            )
+                let login = json["login"];
+                successLogin(login);
+            });
         },
         () => {ifError("There is no connection to server. Try again later")},
         (data) => { ifError(data);}
     );
 }
+
+function guestCall(event) {
+    auth.authTemporary((data) => {
+        data.json().then((json) => {
+            console.log("Success enter as Guest!");
+
+            let login = json["login"];
+            successLogin(login);
+        });
+    },
+    () => {ifError("There is no connection to server. Try again later")},);
+}
+
 function logoutCall(event) {
     event.preventDefault();
 
@@ -74,6 +91,8 @@ function logoutCall(event) {
 function registrationControllerGenerator(root) {
     let registration = document.querySelector('#registration');
     registration.appendChild(registrationForm.el);
+
+    registrationForm.on('submit', registrationCall);
 
     return new RegistrationView(root);
 }
@@ -94,8 +113,7 @@ function loginControllerGenerator(root) {
     login.appendChild(loginForm.el);
 
     loginForm.on('submit', loginCall);
-    registrationForm.on('submit', registrationCall);
-
+    loginForm.addClickById('buttonGuest', guestCall);
     return new LoginView(root);
 }
 

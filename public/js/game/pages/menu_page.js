@@ -70,9 +70,11 @@ class MenuPage extends BasePage {
     }
 
     stopPage() {
-        this.roomBoard.destruct();
+        if(this.roomBoard !== null)
+            this.roomBoard.destruct();
+
         this.world.map.removeChild(this.buttonMenu);
-    //    this.removeAllListeners();
+        //    this.removeAllListeners();
         this.stoped = true;
         this.world.update();
     }

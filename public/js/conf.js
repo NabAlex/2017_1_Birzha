@@ -8,7 +8,7 @@ window.mainConfiguration = {
     roomDeclaration: "Fight vs ? players",
     quickStart: "Choose best room for me!",
 
-    pingPongTime: 100000,
+    pingPongTime: 5000,
 
     pushNotifyDelay: 2000,
     pushNotifyDelta: 100
@@ -47,7 +47,7 @@ window.conf = {
         {prefixSocket : "wss://", prefix: "https://", host: "cyclic-server.herokuapp.com", port: "", path: "/game"},
         {prefixSocket : "ws://", prefix: "http://", host: "172.16.94.65", port: ":8081", path: "/game"}
     ],
-    baseIP: 5,
+    baseIP: 3,
 
     // UI
     rectSize: 100,

@@ -70,8 +70,11 @@ class UserInterface {
         document.addEventListener("mousedown", this.eventManager.bind(this));
 
         this.probablyLine = this.world.newLine("black");
-
         this.probablyCircle = this.world.newShape(null, conf.userSize, "DeepSkyBlue", false);
+
+        this.world.addContainerToTop(this.probablyLine);
+        this.world.addContainerToTop(this.probablyCircle);
+
         this.world.canvas.addEventListener("click", this.eventManager.bind(this));
 
         this.packCallback = packCallback;

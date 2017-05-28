@@ -100,6 +100,9 @@ class LoginForm {
         return this.data.controls;
     }
 
+    addClickById(id, callback) {
+        document.getElementById(id).addEventListener('click', callback);
+    }
 
 }
 

@@ -12,6 +12,16 @@ import {
 } from './controller';
 
 (function () {
+    // auth.getMe(
+    //     (user) => {
+    //         console.log("Success login !");
+    //         routerInstance.updateNewPackToIndex(mainPack);
+    //
+    //         setCookiesAndBar(true, user.login);
+    //     },
+    //     () => { ifError("Wrong login or password!"); console.log("cannot login in getMe!"); }
+    // )
+
     let url = window.location.pathname;
 
     if(mainConfiguration.needAppCache)
