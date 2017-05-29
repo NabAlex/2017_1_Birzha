@@ -6,19 +6,19 @@ import GameView from './views/gameView';
 import AboutView from './views/aboutView';
 
 import Auth from './auth';
-import { getCookie, setCookie, setCookiesAndBar } from './util';
-import { routerInstance } from './router';
+import {getCookie, setCookie, setCookiesAndBar} from './util';
+import {routerInstance} from './router';
 
-import { registrationForm, loginForm, menuForm } from './forms'
+import {registrationForm, loginForm, menuForm} from './forms'
 
-import { Request } from './request';
+import {Request} from './request';
 
 let auth = new Auth();
 
 function registrationCall(event) {
     event.preventDefault();
 
-    const ifError = function(error) {
+    const ifError = function (error) {
         document.getElementById("registration_warning").innerHTML = error;
     };
 
@@ -27,9 +27,16 @@ function registrationCall(event) {
     let regData = registrationForm.getFormData();
 
     auth.register(regData,
-        () => { console.log("Success login !"); routerInstance.go("/login"); },
-        () => {ifError("There is no connection to server. Try again later")},
-        (data) => { ifError(data);}
+        () => {
+            console.log("Success login !");
+            routerInstance.go("/login");
+        },
+        () => {
+            ifError("There is no connection to server. Try again later")
+        },
+        (data) => {
+            ifError(data);
+        }
     );
 }
 
@@ -42,7 +49,7 @@ function loginCall(event) {
     event.preventDefault();
 
     // TODO make error
-    const ifError = function(error) {
+    const ifError = function (error) {
         document.getElementById("login_warning").innerHTML = error;
     };
     /* clear error */
@@ -59,21 +66,27 @@ function loginCall(event) {
                 successLogin(login);
             });
         },
-        () => {ifError("There is no connection to server. Try again later")},
-        (data) => { ifError(data);}
+        () => {
+            ifError("There is no connection to server. Try again later")
+        },
+        (data) => {
+            ifError(data);
+        }
     );
 }
 
 function guestCall(event) {
     auth.authTemporary((data) => {
-        data.json().then((json) => {
-            console.log("Success enter as Guest!");
+            data.json().then((json) => {
+                console.log("Success enter as Guest!");
 
-            let login = json["login"];
-            successLogin(login);
-        });
-    },
-    () => {ifError("There is no connection to server. Try again later")},);
+                let login = json["login"];
+                successLogin(login);
+            });
+        },
+        () => {
+            ifError("There is no connection to server. Try again later")
+        },);
 }
 
 function logoutCall(event) {
@@ -83,8 +96,12 @@ function logoutCall(event) {
     routerInstance.updateNewPackToIndex(loginPack);
 
     auth.logout(
-        () => { console.log("success logout"); },
-        () => { console.log("Error, logout!"); }
+        () => {
+            console.log("success logout");
+        },
+        () => {
+            console.log("Error, logout!");
+        }
     );
 }
 
@@ -128,15 +145,15 @@ let leaderBoardController =
 let gameController = () => new GameView(document.querySelector('.game-view'));
 
 export let loginPack = [
-    { path: '/', generator: loginController },
-    { path: '/login', generator: loginController },
-    { path: '/register', generator: registrationController },
-    { path: '/about', generator: aboutController }
+    {path: '/', generator: loginController},
+    {path: '/login', generator: loginController},
+    {path: '/register', generator: registrationController},
+    {path: '/about', generator: aboutController}
 ];
 
 export let mainPack = [
-    { path: '/', generator:  menuController },
-    { path: '/leaderboard', generator: leaderBoardController },
-    { path: '/game', generator: gameController },
-    { path: '/about', generator: aboutController }
+    {path: '/', generator: menuController},
+    {path: '/leaderboard', generator: leaderBoardController},
+    {path: '/game', generator: gameController},
+    {path: '/about', generator: aboutController}
 ];
