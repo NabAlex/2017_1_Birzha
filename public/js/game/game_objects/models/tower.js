@@ -65,10 +65,8 @@ class Tower {
     }
 
     setPerforming(flag) {
-
         if(this.cache === null)
             return;
-
         let style = this.getStyle();
         if(flag)
             Tower.setShapeTower(this.cache.circle.graphics, style.color, true);
@@ -93,6 +91,10 @@ class Tower {
                 break;
             case towerType.ENEMY:
                 color = this.userColor;
+                fill = false;
+                break;
+            case towerType.MAIN:
+                color = "#000";
                 fill = false;
                 break;
             default:
@@ -151,10 +153,11 @@ class Tower {
     }
 
     static setShapeTower(graphics, color, fill) {
-        if(fill)
+        if (fill)
             graphics.clear().beginFill(color).drawCircle(0, 0, conf.radiusTower);
         else
             graphics.clear().setStrokeStyle(3).beginStroke(color).drawCircle(0, 0, conf.radiusTower)
+
     }
 
     drawStandartImpl(color, fill) {
@@ -162,7 +165,7 @@ class Tower {
             this.cache = {};
 
             let shape = new createjs.Shape();
-            Tower.setShapeTower(shape.graphics, color, fill);
+            Tower.setShapeTower(shape.graphics, color, fill, this.typeOfTower===towerType.MAIN);
 
             this.cache.circle = shape;
 

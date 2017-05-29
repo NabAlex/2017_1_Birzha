@@ -48,13 +48,12 @@ class World {
         if(!container)
             return;
 
-        debugger;
+
 
         this.toTopArray.push(container);
     }
 
     drawTopContainers() {
-        // debugger;
         let getMaxIndex = this.stage.getNumChildren();
         for(let container of this.toTopArray) {
             this.stage.setChildIndex(container, 0);
@@ -158,8 +157,7 @@ class World {
     }
 
     clear(){
-        while(this.toTopArray)
-            this.toTopArray.pop();
+        while(this.toTopArray.pop());
 
         this.map.removeAllChildren();
         this.area.setSize();

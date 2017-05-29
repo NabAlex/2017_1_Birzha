@@ -68,7 +68,8 @@ window.defaultServer = conf.ip[conf.baseIP].prefix + conf.ip[conf.baseIP].host +
 window.towerType = {
     DEFAULT: 0,
     BONUS: 1,
-    ENEMY: 2
+    ENEMY: 2,
+    MAIN: 3
 };
 
 window.userColors = {

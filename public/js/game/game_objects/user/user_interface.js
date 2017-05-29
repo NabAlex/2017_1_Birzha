@@ -34,8 +34,6 @@ class UserScroll {
     hide() {
         this.hidden = true;
         this._text.visible = false;
-        // this._line.graphics.clear();
-
         this.world.update();
     }
 
@@ -46,14 +44,6 @@ class UserScroll {
         this._text.text = units;
         this._text.x = this.point.x;
         this._text.y = this.point.y;
-
-        // this._line.graphics.clear();
-        // this._line.graphics.beginStroke("#00ffff");
-        //
-        // this._line.graphics.moveTo(this.point.x, this.point.y);
-        // this._line.graphics.lineTo(this.point.x, this.point.y - percent);
-        //
-        // this._line.graphics.endStroke();
         this.world.update();
     }
 
@@ -63,11 +53,21 @@ class UserScroll {
 }
 
 class UserInterface {
+
     constructor(world, packCallback, startPos) {
         this.world = world; // get area
-        document.addEventListener("mousemove", this.eventManager.bind(this));
-        document.addEventListener("mouseup", this.eventManager.bind(this));
-        document.addEventListener("mousedown", this.eventManager.bind(this));
+        this.mouseMoveListener = function(event){
+            return this.eventManager.bind(this);
+        }.bind(this);
+        this.mouseUpListener = function(event){
+            return this.eventManager.bind(this);
+        }.bind(this);
+        this.mouseDownListener = function(event){
+            return this.eventManager.bind(this);
+        }.bind(this);
+        this.mouseMoveListener = document.addEventListener("mousemove", this.mouseMoveListener);
+        this.mouseUpListener = document.addEventListener("mouseup", this.mouseUpListener);
+        this.mouseDownListener = document.addEventListener("mousedown", this.mouseDownListener);
 
         this.probablyLine = this.world.newLine("black");
         this.probablyCircle = this.world.newShape(null, conf.userSize, "DeepSkyBlue", false);
@@ -243,12 +243,6 @@ class UserInterface {
                 this.chooseNewVertex(event);
                 return;
             }
-
-            // if (this.currentMode.typeState === STATE_DO_STEP) {
-            //     this.makeState(STATE_CHECK_STEP, null);
-            //     this.putNewVertex(event);
-            //     return;
-            // }
         }
 
         if (event.type === 'click' && event.which === 3 && this.currentMode.typeState === STATE_DO_STEP) {
@@ -263,7 +257,6 @@ class UserInterface {
                 if(this.currentMode.typeState === STATE_CHOOSE_UNITS) {
                     let realPoint = this.getCurrentMousePosition();
                     this.scrollBar.setPosition(realPoint.x, realPoint.y);
-                    // let unitsFromthis.currentMode.data.currentTower.units;
                     let lastY = this.currentMode.data.wasRealPosition.y;
                     let nowY = this.getCurrentMousePosition().y;
                     let percent = Math.max(Math.min(lastY - nowY + 50, 100), 0);
@@ -307,6 +300,16 @@ class UserInterface {
         if (this.currentMode === 'chooseunits') {
             console.log("up");
         }
+    }
+
+    destruct(){
+        document.removeEventListener('mousemove', this.mouseMoveListener);
+        document.removeEventListener('mouseup', this.mouseUpListener);
+        document.removeEventListener('mousedown', this.mouseDownListener);
+        this.mouseMoveListener = null;
+        this.mouseDownListener = null;
+        this.mouseUpListener = null;
+        this.eventManager = null;
     }
 }
 

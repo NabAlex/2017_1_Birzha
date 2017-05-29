@@ -48,7 +48,6 @@ class PlayPage extends BasePage {
             this.connection.send(ACTION_EXIT_ROOM);
             this.stopPage();
         });
-     //   debugger;
         let lastScores = null;
 
         let perfomingPlayer = room.pid;
@@ -285,6 +284,7 @@ class PlayPage extends BasePage {
     }
 
     stopPage() {
+        debugger;
         this.world.map.removeAllChildren();
         this.world.update();
         this.world.clear();
@@ -297,8 +297,6 @@ class PlayPage extends BasePage {
         this.enemiesObject = [];
         this.enemiesData = [];
         this.controls = null;
-        //this.connection.send(ACTION_EXIT_ROOM);
-
         document.exitPointerLock();
     }
 }

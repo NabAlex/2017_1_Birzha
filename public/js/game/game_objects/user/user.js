@@ -43,7 +43,7 @@ class User extends GameObject {
 
         this.myGraph = new GraphTree(world, this.color);
 
-        let tower = this.generateMyTower(point, units);
+        let tower = this.generateMyTower(point, units, true);
 
         this.mainNode = this.myGraph.addNewVertexToCurrent(tower);
         this.setTowerNode(tower, this.mainNode);
@@ -164,9 +164,12 @@ class User extends GameObject {
         this.world.update();
     }
 
-    generateMyTower(point, units) {
-        let tower = new Tower(this.world, point.x, point.y, towerType.DEFAULT,
-            units);
+    generateMyTower(point, units, isMain) {
+        let tower = null;
+        if(!isMain)
+            tower = new Tower(this.world, point.x, point.y, towerType.DEFAULT, units);
+        else
+            tower = new Tower(this.world, point.x, point.y, towerType.MAIN, units);
         tower.setUserColor(this.color);
         tower.client_id = this.pid;
         return tower;
@@ -253,6 +256,7 @@ class User extends GameObject {
     }
 
     destruct(){
+        this.userInterface.destruct();
         delete this.userInterface;
         delete this.userAction;
     }
