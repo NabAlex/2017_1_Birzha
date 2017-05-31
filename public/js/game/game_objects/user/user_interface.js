@@ -10,7 +10,6 @@ class UserScroll {
         this.world = world;
 
         this.point = {x: 0, y: 0};
-        // this._line = this.world.newLine("red");
 
         this._text = new createjs.Text(this.units, "25px Arial", "#ff7700");
         this._text.textBaseline = "middle";
@@ -57,25 +56,25 @@ class UserInterface {
     constructor(world, packCallback, startPos) {
         this.world = world; // get area
         this.mouseMoveListener = function(event){
-            return this.eventManager.bind(this);
+            this.eventManager(event);
         }.bind(this);
         this.mouseUpListener = function(event){
-            return this.eventManager.bind(this);
+            this.eventManager(event);
         }.bind(this);
         this.mouseDownListener = function(event){
-            return this.eventManager.bind(this);
+            this.eventManager(event);
         }.bind(this);
-        this.mouseMoveListener = document.addEventListener("mousemove", this.mouseMoveListener);
-        this.mouseUpListener = document.addEventListener("mouseup", this.mouseUpListener);
-        this.mouseDownListener = document.addEventListener("mousedown", this.mouseDownListener);
+        this.mouseClickListener = function(event){
+            this.eventManager(event);
+        }.bind(this);
+        this.world.canvas.addEventListener("mousemove", this.mouseMoveListener);
+        this.world.canvas.addEventListener("mouseup", this.mouseUpListener);
+        this.world.canvas.addEventListener("mousedown", this.mouseDownListener);
+        this.world.canvas.addEventListener("click", this.mouseClickListener);
 
         this.probablyLine = this.world.newLine("black");
         this.probablyCircle = this.world.newShape(null, conf.userSize, "DeepSkyBlue", false);
 
-        this.world.addContainerToTop(this.probablyLine);
-        this.world.addContainerToTop(this.probablyCircle);
-
-        this.world.canvas.addEventListener("click", this.eventManager.bind(this));
 
         this.packCallback = packCallback;
         this.startPos = startPos;
@@ -86,13 +85,10 @@ class UserInterface {
         this.last_mv = {x: 0, y: 0};
 
         this.pointerLockStatus = false;
-        document.addEventListener("pointerlockchange", () => {
-            if(document.pointerLockElement){
-                this.pointerLockStatus = true;
-            } else {
-                this.pointerLockStatus = false;
-            }
-        }, false);
+        this.pointerLockChangeListener = function (event) {
+            this.pointerLockStatus = !!document.pointerLockElement;
+        }.bind(this);
+        document.addEventListener("pointerlockchange", this.pointerLockChangeListener);
 
         this.currentPos = this.startPos;
         this.color = this.packCallback["getMyColor"]();
@@ -127,6 +123,8 @@ class UserInterface {
         this.probablyCircle.y = pxPoint.y - mv.y;
 
         this.probablyLine.graphics.clear();
+        this.world.moveToFront(this.probablyCircle);
+        this.world.moveToFront(this.probablyLine);
         if (this.currentMode.typeState === STATE_DO_STEP) {
             if (!this.checkCellForVertex(cellPos)) {
                 this.world.area.markCurrentCell(cellPos.x, cellPos.y, 1);
@@ -303,12 +301,16 @@ class UserInterface {
     }
 
     destruct(){
-        document.removeEventListener('mousemove', this.mouseMoveListener);
-        document.removeEventListener('mouseup', this.mouseUpListener);
-        document.removeEventListener('mousedown', this.mouseDownListener);
+        this.world.canvas.removeEventListener('mousemove', this.mouseMoveListener);
+        this.world.canvas.removeEventListener('mouseup', this.mouseUpListener);
+        this.world.canvas.removeEventListener('mousedown', this.mouseDownListener);
+        this.world.canvas.removeEventListener("pointerlockchange", this.pointerLockChangeListener);
+        this.world.canvas.removeEventListener("click", this.mouseClickListener);
         this.mouseMoveListener = null;
         this.mouseDownListener = null;
         this.mouseUpListener = null;
+        this.mouseClickListener = null;
+        this.pointerLockChangeListener = null;
         this.eventManager = null;
     }
 }

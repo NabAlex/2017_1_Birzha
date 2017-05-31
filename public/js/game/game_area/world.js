@@ -44,21 +44,8 @@ class World {
         this.toTopArray = [];
     }
 
-    addContainerToTop(container) {
-        if(!container)
-            return;
-
-
-
-        this.toTopArray.push(container);
-    }
-
-    drawTopContainers() {
-        let getMaxIndex = this.stage.getNumChildren();
-        for(let container of this.toTopArray) {
-            this.stage.setChildIndex(container, 0);
-            getMaxIndex++;
-        }
+    moveToFront(dObject) {
+        this.map.setChildIndex(dObject, this.map.getNumChildren()-1);
     }
 
     get basicCenter() {
@@ -74,7 +61,6 @@ class World {
     }
 
     update() {
-        this.drawTopContainers();
         this.stage.update();
     }
 
@@ -86,7 +72,6 @@ class World {
         this.map.addChild(child); // TODO normal coor
     }
 
-    /** Fabric draw **/
     newShape(position, radius, color, visible) {
         let circle = new createjs.Shape();
         circle.visibility = visible || true;
