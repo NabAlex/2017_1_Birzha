@@ -7,6 +7,7 @@ import Controls from '../controls/gameControls';
 
 import BasePage from './base_page';
 import Enemy from '../game_objects/enemy/enemy';
+import Ticker from '../ulits/ticker';
 
 class PlayPage extends BasePage {
     constructor(world, connection) {
@@ -21,6 +22,7 @@ class PlayPage extends BasePage {
 
         this.nowPerforming = null;
         this.listeners = [];
+        this.ticker = new Ticker();
     }
 
     splitUsers(array, meId) {
@@ -297,6 +299,7 @@ class PlayPage extends BasePage {
         this.enemiesObject = [];
         this.enemiesData = [];
         this.controls = null;
+        this.ticker.removeAllCallbacks();
         document.exitPointerLock();
     }
 }

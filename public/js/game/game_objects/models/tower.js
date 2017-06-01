@@ -17,6 +17,7 @@ class Tower {
 
         this._parentNode = null;
         this._client_id = null;
+        this.dAlpha = 0.01;
     }
 
     changeUnits(units){
@@ -67,13 +68,7 @@ class Tower {
     setPerforming(flag) {
         if(this.cache === null)
             return;
-        let style = this.getStyle();
-        if(flag)
-            Tower.setShapeTower(this.cache.circle.graphics, style.color, true);
-        else {
-            Tower.setShapeTower(this.cache.circle.graphics, style.color, style.fill);
-        }
-
+        this.animate(flag);
     }
 
     getStyle() {
@@ -86,7 +81,7 @@ class Tower {
                 fill = false;
                 break;
             case towerType.BONUS:
-                color = "#cccccc";
+                color = "bonus";
                 fill = true;
                 break;
             case towerType.ENEMY:
@@ -94,7 +89,7 @@ class Tower {
                 fill = false;
                 break;
             case towerType.MAIN:
-                color = "#000";
+                color =this.userColor;
                 fill = false;
                 break;
             default:
@@ -125,11 +120,11 @@ class Tower {
     }
 
     setTextCoordinates(x, y) {
-        if(this.cache == null)
+        if(this.cache === null)
             return;
 
         this.cache.text.x = x;
-        this.cache.text.y = y;
+        this.cache.text.y = y+3;
 
         if(this.units)
             this.cache.text.text = this.units;
@@ -141,6 +136,9 @@ class Tower {
 
         this.cache.circle.x = x;
         this.cache.circle.y = y;
+        this.cache.circle.regX = conf.radiusTower;
+        this.cache.circle.regY = conf.radiusTower;
+
     }
 
     destruct() {
@@ -152,24 +150,32 @@ class Tower {
         }
     }
 
-    static setShapeTower(graphics, color, fill) {
-        if (fill)
-            graphics.clear().beginFill(color).drawCircle(0, 0, conf.radiusTower);
-        else
-            graphics.clear().setStrokeStyle(3).beginStroke(color).drawCircle(0, 0, conf.radiusTower)
+    animate(alpha){
+        if(alpha){
+            this.cache.circle.alpha = alpha;
+            debugger;
+            return;
+        }
+        if(this.cache.circle.alpha>=1 && this.dAlpha>0)
+            this.dAlpha *= -1;
+        if(this.cache.circle.alpha<=0.65 && this.dAlpha<0)
+            this.dAlpha *= -1;
 
+        this.cache.circle.alpha += this.dAlpha;
     }
 
     drawStandartImpl(color, fill) {
         if(this.cache === null) {
             this.cache = {};
 
-            let shape = new createjs.Shape();
-            Tower.setShapeTower(shape.graphics, color, fill, this.typeOfTower===towerType.MAIN);
+            let style = this.getStyle();
+            let shape = new createjs.Bitmap(resources.getResult(style.color+"Tower"));
+            shape.scaleX = 1.1;
+            shape.scaleY = 1.1;
 
             this.cache.circle = shape;
 
-            this.cache.text = new createjs.Text(this.units, "20px Arial", "#ff7700");
+            this.cache.text = new createjs.Text(this.units, "20px Kumar One", "#fcfcfc");
             this.cache.text.textBaseline = "middle";
             this.cache.text.textAlign = "center";
 

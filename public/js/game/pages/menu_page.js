@@ -1,6 +1,7 @@
 import BasePage from './base_page';
 
 import PerformBoard from '../controls/boards/performBoard'
+import Ticker from '../ulits/ticker';
 
 class MenuPage extends BasePage {
     constructor(world, callBackIfRun) {
@@ -12,6 +13,7 @@ class MenuPage extends BasePage {
         this.buttonMenu = null;
         this.roomBoard = null; /* choose room */
         this.listeners = [];
+        this.ticker = new Ticker();
     }
 
     startPage(resource) {
@@ -36,7 +38,9 @@ class MenuPage extends BasePage {
         this.buttonAnimate = function (event) {
             this.buttonMenu.rotation += 2;
             this.world.update();
-        };
+        }.bind(this);
+
+        this.handlerId = this.ticker.addCallback(this.buttonAnimate);
 
         const onClickRun = (event) => {
             this.callbackIfRun();
@@ -80,17 +84,7 @@ class MenuPage extends BasePage {
     }
 
     setEnableRotation(flag) {
-        if(flag) {
-            if(createjs.Ticker.hasEventListener("tick"))
-                return;
-
-            createjs.Ticker.addEventListener("tick", this.buttonAnimate.bind(this));
-            createjs.Ticker.setInterval(10);
-            createjs.Ticker.setFPS(60);
-        } else {
-            createjs.Ticker.removeAllEventListeners();
-            createjs.Ticker.paused = true;
-        }
+        this.ticker.setPausedCallback(this.handlerId, !flag);
         this.world.update();
     }
 

@@ -13,6 +13,6 @@ module.exports = {
             loader: 'babel-loader'
         }]
     },
-    watch: false,
+    watch: true,
     cache: false
 };

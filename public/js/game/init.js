@@ -14,7 +14,12 @@ import User from './game_objects/user/user' /* add for debug */
 
 function loadResourse(callback) {
     let needFilesForProjectManifest = [
-        {id: "playButton", src: "./img/play.png"}
+        {id: "playButton", src: "./img/play.png"},
+        {id: "greenTower", src: userTowers["green"]},
+        {id: "redTower", src: userTowers["red"]},
+        {id: "blueTower", src: userTowers["blue"]},
+        {id: "yellowTower", src: userTowers["yellow"]},
+        {id: "bonusTower", src: userTowers["bonus"]}
     ];
 
     new Loader(needFilesForProjectManifest, callback);
@@ -40,6 +45,7 @@ function startGame(elementDOM) {
     let menuPage = new MenuPage(world, iAmReady);
 
     let startConnect = (result) => {
+        window.resources = result;
         connectionService = new Connection((status) => {
             if(status === RES_ERROR) {
                 alert("error connect server!"); // error

@@ -2,7 +2,7 @@ import GameObject from '../game_object';
 import GraphTree from '../../graph/graph_tree';
 
 import Tower from '../models/tower';
-
+import Ticker from '../../ulits/ticker';
 /*
 example info: {"nickname":"Nick2696","id":5784,"units":0,"beginX":50,"beginY":95,"readyForGameStart":true}
  */
@@ -21,7 +21,17 @@ class Enemy extends GameObject {
         let tower = this.generateEnemyTower(point, info.units, true);
 
         this.world.addTowerToMap(point, tower);
+        this.ticker = new Ticker();
 
+        this.handleTick = function () {
+            this.enemyGraph.shapes.forEach((val, item) => {
+                item.animate();
+            });
+            this.world.update();
+        }.bind(this);
+
+
+        this.handlerId = this.ticker.addCallback(this.handleTick);
         this.drawObject();
     }
 
@@ -67,9 +77,20 @@ class Enemy extends GameObject {
     }
 
     setPerforming(flag) {
-        this.enemyGraph.shapes.forEach((val, item)=>{
-            item.setPerforming(flag);
+        this.performing = flag;
+        if(flag)
+            this.ticker.setPausedCallback(this.handlerId, false);
+        else {
+            this.ticker.setPausedCallback(this.handlerId, true);
+            this.resetNodes();
+        }
+    }
+
+    resetNodes(){
+        this.enemyGraph.shapes.forEach((val, item) => {
+            item.animate(1.0);
         });
+        this.world.update();
     }
 
     createLink(from, to){
