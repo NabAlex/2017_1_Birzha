@@ -10,8 +10,9 @@ window.mainConfiguration = {
 
     pingPongTime: 5000,
 
-    pushNotifyDelay: 2000,
-    pushNotifyDelta: 100
+    pushNotifyDelay: 3000,
+    pushNotifyDelta: 100,
+    timeForStep: 27000
 };
 
 window.DATATYPE_ROOMINFO = "DATATYPE_ROOMINFO";
@@ -41,7 +42,7 @@ window.conf = {
     ip: [
         {prefixSocket : "ws://", prefix: "http://", host: "172.16.84.20", port: ":8081", path: "/game "},
         {prefixSocket : "ws://", prefix: "http://", host: "192.168.1.102", port: ":8081", path: "/game"},
-        {prefixSocket : "ws://", prefix: "http://", host: "172.16.90.25", port: ":8081", path: "/game"},
+        {prefixSocket : "ws://", prefix: "http://", host: "172.16.84.247", port: ":8081", path: "/game"},
         {prefixSocket : "ws://", prefix: "http://", host: "172.20.10.4", port: ":8081", path: "/game"},
         {prefixSocket : "ws://", prefix: "http://", host: "localhost", port: ":8081", path: "/game"},
         {prefixSocket : "wss://", prefix: "https://", host: "cyclic-server.herokuapp.com", port: "", path: "/game"},
@@ -56,7 +57,7 @@ window.conf = {
     defaultStartUnit: 100,
 
     userSize: 5,
-    radiusTower: 28,
+    radiusTower: 37,
     betweenTowersPadding: 0,
     paddingHintX: 40,
     paddingHintY: 40
@@ -77,4 +78,12 @@ window.userColors = {
     1: "green",
     2: "blue",
     3: "yellow"
+};
+
+window.userTowers = {
+    "red": "../img/nodes/green.png",
+    "green": "../img/nodes/green.png",
+    "blue": "../img/nodes/green.png",
+    "yellow": "../img/nodes/green.png",
+    "bonus": "../img/nodes/green.png"
 };

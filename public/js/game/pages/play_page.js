@@ -40,6 +40,7 @@ class PlayPage extends BasePage {
         return me;
     }
 
+
     startPage(room) {
         this.room = room;
         this.enemiesObject = [];
@@ -70,6 +71,8 @@ class PlayPage extends BasePage {
                 this.enemiesObject[enemyData.id].setPerforming(true);
             }
         }
+
+        this.controls.progressBar.start(conf.timeForStep);
 
         this.listeners.push({
             method: DATATYPE_NEWBONUS,
@@ -227,6 +230,8 @@ class PlayPage extends BasePage {
                     }
                 }
 
+                this.controls.progressBar.reset();
+                this.controls.progressBar.start(conf.timeForStep);
                 this.nowPerforming.setPerforming(true);
                 this.controls.pushNotify({text: "Now playing " + this.nowPerforming.nickName + " !"});
                 this.world.update();
