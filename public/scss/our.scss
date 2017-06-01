@@ -119,3 +119,22 @@
     padding: 10px 0 10px 0;
     box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
+
+/**
+ * To push form (win, lose)
+ */
+
+.btn-push-image {
+    margin: 27px;
+    float: left;
+    height: 100px;
+}
+
+.btn-push {
+    display:inline-block;
+    margin: 10px;
+    padding: 10px;
+}
+
+.btn-push-retry { }
+.btn-exit { }

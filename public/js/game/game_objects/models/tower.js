@@ -1,3 +1,6 @@
+window.WAS_CREATED_TOWER = 0;
+window.LAST_TOWER = 1;
+
 class Tower {
     constructor(world, pointX, pointY, typeOfTower, units) {
         this.world = world;
@@ -18,6 +21,16 @@ class Tower {
         this._parentNode = null;
         this._client_id = null;
         this.dAlpha = 0.01;
+
+        this._status = WAS_CREATED_TOWER;
+    }
+
+    set status(value) {
+        this._status = value;
+    }
+
+    get status() {
+        return this._status;
     }
 
     changeUnits(units){
@@ -161,7 +174,6 @@ class Tower {
         if(this.cache.circle.alpha<=0.65 && this.dAlpha<0)
             this.dAlpha *= -1;
 
-        this.cache.circle.alpha += this.dAlpha;
     }
 
     drawStandartImpl(color, fill) {

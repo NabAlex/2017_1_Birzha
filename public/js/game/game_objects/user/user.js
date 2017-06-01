@@ -46,6 +46,7 @@ class User extends GameObject {
         this.myGraph = new GraphTree(world, this.color);
 
         let tower = this.generateMyTower(point, units, true);
+        tower.status = LAST_TOWER;
 
         this.mainNode = this.myGraph.addNewVertexToCurrent(tower);
         this.setTowerNode(tower, this.mainNode);
@@ -143,7 +144,7 @@ class User extends GameObject {
 
     addNewTower(pointNewTower, units) {
         let placeTower = this.getFromMap(pointNewTower);
-        this.setPerforming(false); // TODO if error
+        this.setPerforming(mainConfiguration.debugMode); // TODO if error
         if (!placeTower) {
             this.currentNode = this.playerMoveFree(this.currentNode, pointNewTower, units);
         } else { // TODO work fight

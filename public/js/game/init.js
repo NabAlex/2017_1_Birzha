@@ -60,10 +60,9 @@ function startGame(elementDOM) {
             };
 
             connectionService.addEventListen(DATATYPE_HELLO, (json) => {
-                let id = json["id"];
                 let nickname = json["nickname"];
 
-                if(id === null || nickname === null) {
+                if(nickname === null) {
                     alert("error");
                     return;
                 }
@@ -72,7 +71,7 @@ function startGame(elementDOM) {
                 menuPage.startPage(result);
                 menuPage.startRoomChoose(connectionService);
 
-                room = new Room(connectionService, menuPage, id, nickname, (room, height, width) => {
+                room = new Room(connectionService, menuPage, (room, height, width) => {
                     area.setSize(height, width);
                     world.reconfigure();
                     menuPage.stopPage(); // destruct room choose
@@ -90,6 +89,7 @@ function startGame(elementDOM) {
 }
 
 function debugGame(elementDOM) {
+
     let connectionService = null;
     let room = null;
 
@@ -106,12 +106,10 @@ function debugGame(elementDOM) {
 
         user.setPerforming(true);
 
-        new PlayPage(world, null).startPage(null);
+        // new PlayPage(world, null).startPage(null);
     };
 
     let menuPage = new MenuPage(world, iAmReady);
-
-
     loadResourse((result) => {
         console.log(result);
         menuPage.startPage(result);

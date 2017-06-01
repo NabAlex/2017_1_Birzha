@@ -2,7 +2,7 @@ import roombase from "../../../templates/roombase";
 import room from "../../../templates/room";
 
 class PerformBoard {
-    constructor(root, callback, youWin) {
+    constructor(root, callback) {
         root.innerHTML = roombase({
             quickStart: mainConfiguration.quickStart
         });

@@ -85,7 +85,6 @@ class World {
 
     newLine(color, visible) {
         let line = new createjs.Shape();
-        line.graphics.setStrokeStyle(3);
         line.visibility = visible || true;
 
         this.map.addChild(line);
