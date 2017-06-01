@@ -33,7 +33,39 @@ class Area {
         this.zoom = 1;
     }
 
+    addCell(container) {
+        let cell = new createjs.Shape();
+        cell.graphics
+            .beginFill("#dbffd0")
+            .drawRect(this.borderSize, this.borderSize,
+                this.rectSize - this.borderSize,
+                this.rectSize - this.borderSize)
+            .endFill();
+
+        cell.alpha = 0.1;
+
+        container.addChild(cell);
+    }
+
+    addStar(container) {
+        const getRandomInt = (min, max) => {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
+
+        let xCoor = getRandomInt(0, this.rectSize);
+        let yCoor = getRandomInt(0, this.rectSize);
+
+        let star = new createjs.Shape();
+        star.graphics
+             .setStrokeStyle(this.borderSize).beginFill("#ffffff")
+             .drawCircle(xCoor, yCoor, mainConfiguration.starSize)
+             .endFill();
+
+        container.addChild(star);
+    }
+
     initArea() {
+        // debugger;
         let rectSize = this.rectSize;
         let borderSize = this.borderSize;
         let xCount = document.documentElement.clientWidth / this.rectSize | 0;
@@ -44,25 +76,22 @@ class Area {
         };
 
         this.cells = [];
-
         for (let i = 0; i < this.worldSizeH; i++) {
             let t = [];
             for (let j = 0; j < this.worldSizeW; j++) {
-                let cell = new createjs.Shape();
-                cell.graphics
-                    .setStrokeStyle(this.borderSize).beginStroke("#fffbf7")
-                    .drawRect(j * rectSize + borderSize/2, i * rectSize + borderSize/2, rectSize, rectSize)
-                    .endStroke()
-                    .beginFill("#dbffd0")
-                    .drawRect(j * rectSize + borderSize, i * rectSize + borderSize, rectSize - borderSize, rectSize - borderSize)
-                    .endFill();
-                if(j < xCount + 5 && i < yCount + 5){
-                    cell.visible = true;
-                } else {
-                    cell.visible = false;
-                }
-                t.push(cell);
-                this.world.addChildAt(cell);
+                let container = new createjs.Container();
+                container.x = j * rectSize;
+                container.y = i * rectSize;
+
+                for(let i = 0; i < mainConfiguration.countStar; i++)
+                    this.addStar(container);
+
+                this.addCell(container);
+
+                container.visible = j < xCount + 5 && i < yCount + 5;
+
+                t.push(container);
+                this.world.addChildAt(container);
             }
             this.cells.push(t);
         }

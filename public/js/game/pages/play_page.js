@@ -43,7 +43,7 @@ class PlayPage extends BasePage {
         this.enemiesObject = [];
         this.user = null;
         this.controls = this.controls || new Controls();
-        this.controls.pushNotify({text: "Start Game !"});
+        this.controls.pushNotify({text: pushText.startGame});
         this.controls.menuBoard.addExitListener(()=>{
             this.connection.send(ACTION_EXIT_ROOM);
             this.stopPage();
@@ -52,10 +52,11 @@ class PlayPage extends BasePage {
 
         let perfomingPlayer = room.pid;
 
-        let meData = this.splitUsers(room.players, room.meId);
+        let meId = info.id;
+        let meData = this.splitUsers(room.players, meId);
         this.user = new User(this.connection, this.world, meData);
 
-        if(perfomingPlayer === room.meId) {
+        if(perfomingPlayer === meId) {
             this.nowPerforming = this.user;
             this.user.setPerforming(true);
         }

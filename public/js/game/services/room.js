@@ -1,8 +1,5 @@
 class Room {
-    constructor(connection, waitPage, id, nickName, runGame) {
-        this.meId = id;
-        this.meNickName = nickName;
-
+    constructor(connection, waitPage, runGame) {
         this.players = [];
 
         this.roomId = -1;

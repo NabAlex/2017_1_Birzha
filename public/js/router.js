@@ -111,4 +111,4 @@ class Router {
 
 }
 
-export let routerInstance = new Router(window.document.documentElement);
+    export let routerInstance = new Router(window.document.documentElement);

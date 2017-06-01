@@ -1,6 +1,6 @@
 window.mainConfiguration = {
-    debugMode: false,
-    needAppCache: true,
+    debugMode: true,
+    needAppCache: false,
 
     roomTypes: [2, 3, 4, 5],
     roomPrefix: "Required ? more player", /* ? ~ number of current count */
@@ -11,7 +11,13 @@ window.mainConfiguration = {
     pingPongTime: 5000,
 
     pushNotifyDelay: 2000,
-    pushNotifyDelta: 100
+    pushNotifyDelta: 100,
+
+    starSize: 1,
+    countStar: 1,
+
+    animateLightTime: 200,
+    lightWidth: 5
 };
 
 window.DATATYPE_ROOMINFO = "DATATYPE_ROOMINFO";
@@ -77,4 +83,13 @@ window.userColors = {
     1: "green",
     2: "blue",
     3: "yellow"
+};
+
+window.pushText = {
+    startGame: "Start game!"
+};
+
+window.srcImages = {
+    "win": "/img/youwin.png",
+    "lost": "/img/youlost.png"
 };
