@@ -101,3 +101,24 @@ window.userTowers = {
     "yellow": "../img/nodes/green.png",
     "bonus": "../img/nodes/green.png"
 };
+
+window.areaConf = {
+    cellStyles : {
+        "default": {
+            color: "#dbffd0",
+            alpha: 0.1
+        },
+        "allowed": {
+            color: "#dbffd0",
+            alpha: 0.3
+        },
+        "denied": {
+            color: "#ff254a",
+            alpha: 0.8
+        },
+        "selected": {
+            color: "#dbffd0",
+            alpha: 0.5
+        }
+    }
+};

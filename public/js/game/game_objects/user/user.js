@@ -6,7 +6,7 @@ import UserInterface from './user_interface';
 import GameObject from '../game_object';
 
 import Tower from '../models/tower'
-import Ticker from '../../ulits/ticker';
+import { tickerInstance } from '../../ulits/ticker';
 
 class User extends GameObject {
     constructor(connection, world, info) {
@@ -20,7 +20,6 @@ class User extends GameObject {
 
         super(world, clientId, userNick);
 
-        this.ticker = new Ticker();
         this.color = info.color;
         this.arrayMap = world.arrayMap;
         this.userInterface = new UserInterface(world, {
@@ -63,7 +62,6 @@ class User extends GameObject {
         this.world.area.world.stage.update();
         this.world.update();
 
-        this.ticker = new Ticker();
 
         this.handleTick = function () {
             this.myGraph.shapes.forEach((val, item) => {
@@ -72,7 +70,7 @@ class User extends GameObject {
             this.world.update();
         }.bind(this);
 
-        this.handlerId = this.ticker.addCallback(this.handleTick);
+        this.handlerId = tickerInstance.addCallback(this.handleTick);
 
         scrollTo(0,0);
     }
@@ -80,9 +78,9 @@ class User extends GameObject {
     setPerforming(flag) {
         this.performing = flag;
         if(flag)
-            this.ticker.setPausedCallback(this.handlerId, false);
+            tickerInstance.setPausedCallback(this.handlerId, false);
         else {
-            this.ticker.setPausedCallback(this.handlerId, true);
+            tickerInstance.setPausedCallback(this.handlerId, true);
             this.resetNodes();
         }
     }

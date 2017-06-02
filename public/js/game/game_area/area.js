@@ -131,42 +131,33 @@ class Area {
     }
 
     markSelectedCell(x, y, status) {
-        let rectSize = this.rectSize;
-        let borderSize = this.borderSize;
-        x *= rectSize;
-        y *= rectSize;
-
-        let cell = new createjs.Shape();
-        if(status)
-            cell.graphics.beginFill("#beffb1").drawRect(x + borderSize, y + borderSize, rectSize - borderSize, rectSize - borderSize).endFill();
-        else
-            cell.graphics.beginFill("#dbffd0").drawRect(x + borderSize, y + borderSize, rectSize - borderSize, rectSize - borderSize).endFill();
-
-        this.world.addChild(cell);
+        if(status) {
+            this.cells[y][x].children[1].alpha = areaConf.cellStyles.selected.alpha;
+        }
+        else {
+            this.cells[y][x].children[1].alpha = areaConf.cellStyles.default.alpha;
+        }
         this.stage.update();
     }
 
     markCurrentCell(x, y, type) {
-        let rectSize = this.rectSize;
-        let borderSize = this.borderSize;
-        x *= rectSize;
-        y *= rectSize;
-
-        let color = "#ffa895";
+        let typeStr = "default";
         switch (type){
             case 0:
-                color = "#beffb1";
+                typeStr = "allowed";
                 break;
             case 1:
-                color = "#ffa895";
+                typeStr = "denied";
                 break;
         }
         if(this.currentCell){
-            this.world.removeChild(this.currentCell);
+            this.cells[this.currentCell.y][this.currentCell.x].children[1].alpha = areaConf.cellStyles.default.alpha;
         }
-        this.currentCell = new createjs.Shape();
-        this.currentCell.graphics.beginFill(color).drawRect(x + borderSize, y + borderSize, rectSize - borderSize, rectSize - borderSize).endFill();
-        this.world.addChild(this.currentCell);
+        this.cells[y][x].children[1].alpha = areaConf.cellStyles[typeStr].alpha;
+        this.currentCell = {
+            x: x,
+            y: y
+        };
         this.stage.update();
     }
 

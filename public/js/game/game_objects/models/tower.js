@@ -81,7 +81,6 @@ class Tower {
     setPerforming(flag) {
         if(this.cache === null)
             return;
-        this.animate(flag);
     }
 
     getStyle() {
@@ -166,7 +165,6 @@ class Tower {
     animate(alpha){
         if(alpha){
             this.cache.circle.alpha = alpha;
-            debugger;
             return;
         }
         if(this.cache.circle.alpha>=1 && this.dAlpha>0)
@@ -174,6 +172,7 @@ class Tower {
         if(this.cache.circle.alpha<=0.65 && this.dAlpha<0)
             this.dAlpha *= -1;
 
+        this.cache.circle.alpha += this.dAlpha;
     }
 
     drawStandartImpl(color, fill) {

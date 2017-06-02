@@ -61,6 +61,7 @@ function startGame(elementDOM) {
 
             connectionService.addEventListen(DATATYPE_HELLO, (json) => {
                 let nickname = json["nickname"];
+                let id = json["id"];
 
                 if(nickname === null) {
                     alert("error");
@@ -75,7 +76,7 @@ function startGame(elementDOM) {
                     area.setSize(height, width);
                     world.reconfigure();
                     menuPage.stopPage(); // destruct room choose
-                    playPage.startPage(room);
+                    playPage.startPage(room, id);
                 });
 
             });
