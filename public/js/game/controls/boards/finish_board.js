@@ -10,16 +10,32 @@ class FinishBoard {
         if(!(status in srcImages))
             alert("wtf!");
 
-        root.innerHTML = statusboard({
-            status: status,
-            srcImage: srcImages[status]
-        });
-
+        this.status = status;
         this.root = root;
     }
 
-    wrapperClick(event) {
-        let count = event.target.getAttribute("num");
-        this.callback(count);
+    show(callbackHide, callbackBackToMenu) {
+        this.root.innerHTML = statusboard({
+            status: this.status,
+            srcImage: srcImages[this.status]
+        });
+
+        document.getElementById("status-board-hide").onclick = () => {
+            this.hide();
+            callbackHide();
+        };
+
+        document.getElementById("status-board-tomenu").onclick = () => {
+            this.hide();
+            callbackBackToMenu();
+        };
     }
+
+    hide() {
+        this.root.innerHTML = "";
+    }
+
+
 }
+
+export default FinishBoard;

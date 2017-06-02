@@ -1,3 +1,6 @@
+import { getPushContainer } from '../ulits/system';
+import UserListBoard from '../controls/boards/user_list_board';
+
 class Room {
     constructor(connection, waitPage, runGame) {
         this.players = [];
@@ -10,12 +13,20 @@ class Room {
 
         this.connection = connection;
 
+        this.userListBoard = new UserListBoard(getPushContainer());
+
         this.connection.addEventListen(DATATYPE_ROOMINFO, (json) => {
             let roomId = json["roomID"];
             let status = json["status"];
             let players = json["players"];
             let pID = json["pid"];
             this.players = players;
+
+            let users = [];
+            for(let user of players) {
+                users.push({ name: user["nickname"] });
+            }
+            this.userListBoard.update(users);
 
             if(status === STATUS_PLAYING) {
                 this.pid = pID;

@@ -8,7 +8,7 @@ class ProgressBar {
         this.progressBar = document.createElement("progress");
         this.progressBar.className = "CyclicProgressBar";
         this.progressBar.id = "cyclic-time-progress";
-        this.progressBar.max = 10000;
+        this.progressBar.max = mainConfiguration.timeForStep / 5 | 0;
 
         document.body.appendChild(this.progressBar);
 
@@ -16,7 +16,7 @@ class ProgressBar {
     }
 
     start(time, callback){
-        let timePerIter = time / this.progressBar.max;
+        let timePerIter = time / this.progressBar.max | 0;
         this.IntervalId = setInterval(()=>{
             this.progressBar.value++;
             if(this.progressBar.value === this.progressBar.max) {
@@ -25,6 +25,9 @@ class ProgressBar {
                     callback();
             }
         }, timePerIter);
+        // let handrler = function() {
+        //
+        // }.bind(this);
         this.show();
     }
 

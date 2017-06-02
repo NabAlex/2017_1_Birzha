@@ -139,7 +139,7 @@ class UserInterface {
             if (this.world.arrayMap[cellPos.x][cellPos.y]) {
                 if (this.world.arrayMap[cellPos.x][cellPos.y].client_id !== this.packCallback['getClientId']()) {
                     this.world.area.markCurrentCell(cellPos.x, cellPos.y, 1);
-                }
+                } else
                 this.world.area.markCurrentCell(cellPos.x, cellPos.y, 0);
             } else
                 this.world.area.markCurrentCell(cellPos.x, cellPos.y, 1);
@@ -170,8 +170,9 @@ class UserInterface {
 
     putNewVertex(newPoint, units) {
         console.log("choose units: " + units);
-        if(units<1 || units>this.currentMode.data.currentTower.units-1)
+        if(units < 1 || units > this.currentMode.data.currentTower.units - 1)
             return;
+
         if(!this.packCallback["getPerforming"]())
             return;
 
@@ -232,6 +233,10 @@ class UserInterface {
             return;
         }
 
+        if(!this.pointerLockStatus)
+            return;
+
+
         if(event.type === 'click' &&
             event.which === 1 &&
             this.packCallback["getPerforming"]()) {
@@ -243,55 +248,64 @@ class UserInterface {
             }
         }
 
-        if (event.type === 'click' && event.which === 3 && this.currentMode.typeState === STATE_DO_STEP) {
+        if (event.type === 'click' &&
+            event.which === 3 &&
+            this.currentMode.typeState === STATE_DO_STEP) {
+
             this.makeState(STATE_CHOOSE_NODE, null);
             this.probablyLine.graphics.clear();
+
         }
 
-        if(this.pointerLockStatus)
-            if(event.type === 'mousemove') {
-                this.eventMove(event); // PASS STATE_CHOOSE_NODE AND STATE_DO_STEP, STATE_CHOOSE_UNITS
 
-                if(this.currentMode.typeState === STATE_CHOOSE_UNITS) {
-                    let realPoint = this.getCurrentMousePosition();
-                    this.scrollBar.setPosition(realPoint.x, realPoint.y);
-                    let lastY = this.currentMode.data.wasRealPosition.y;
-                    let nowY = this.getCurrentMousePosition().y;
-                    let percent = Math.max(Math.min(lastY - nowY + 50, 100), 0);
-                    let units = this.currentMode.data.currentTower.units;
-                    let newUnits = parseInt(units * percent / 100);
+        if(event.type === 'mousemove') {
+            this.eventMove(event); // PASS STATE_CHOOSE_NODE AND STATE_DO_STEP, STATE_CHOOSE_UNITS
 
-                    this.currentMode.data.finalUnits = newUnits;
-                    this.scrollBar.drawPercent(newUnits);
-                }
-            } else if(event.type === 'mousedown' && this.currentMode.typeState === STATE_DO_STEP) {
-
-                let newX = this.probablyCircle.x, newY = this.probablyCircle.y;
-                let newPos = this.world.area.getCellPosition(newX, newY);
-                if(!this.checkCellForVertex(newPos))
-                    return;
-
-                this.world.area.markSelectedCell(newPos.x, newPos.y);
-
+            if(this.currentMode.typeState === STATE_CHOOSE_UNITS) {
                 let realPoint = this.getCurrentMousePosition();
                 this.scrollBar.setPosition(realPoint.x, realPoint.y);
-                this.scrollBar.show();
+                let lastY = this.currentMode.data.wasRealPosition.y;
+                let nowY = this.getCurrentMousePosition().y;
+                let percent = Math.max(Math.min(lastY - nowY + 50, 100), 0);
+                let units = this.currentMode.data.currentTower.units;
+                let newUnits = parseInt(units * percent / 100);
 
-                let tower = this.packCallback['getTower']();
-                this.makeState(STATE_CHOOSE_UNITS, {
-                    currentTower: tower,
-                    wasRealPosition: realPoint,
-                    finalUnits: parseInt(tower.units / 2)
-                });
-
-            } else if(event.type === 'mouseup' && this.currentMode.typeState === STATE_CHOOSE_UNITS) {
-                this.putNewVertex(this.currentMode.data.wasRealPosition, this.currentMode.data.finalUnits);
-
-                this.scrollBar.hide();
-
-                this.makeState(STATE_CHOOSE_NODE, null);
-                // TODO draw scroll
+                this.currentMode.data.finalUnits = newUnits;
+                this.scrollBar.drawPercent(newUnits);
             }
+        } else if(event.type === 'mousedown' &&
+                  event.which === 1 &&
+                  this.currentMode.typeState === STATE_DO_STEP) {
+
+            let newX = this.probablyCircle.x, newY = this.probablyCircle.y;
+            let newPos = this.world.area.getCellPosition(newX, newY);
+            if(!this.checkCellForVertex(newPos))
+                return;
+
+            this.world.area.markSelectedCell(newPos.x, newPos.y);
+
+            let realPoint = this.getCurrentMousePosition();
+            this.scrollBar.setPosition(realPoint.x, realPoint.y);
+            this.scrollBar.show();
+
+            let tower = this.packCallback['getTower']();
+            this.makeState(STATE_CHOOSE_UNITS, {
+                currentTower: tower,
+                wasRealPosition: realPoint,
+                finalUnits: parseInt(tower.units / 2)
+            });
+
+        } else if(event.type === 'mouseup' &&
+                  event.which === 1 &&
+                  this.currentMode.typeState === STATE_CHOOSE_UNITS) {
+            console.log("one");
+            this.putNewVertex(this.currentMode.data.wasRealPosition, this.currentMode.data.finalUnits);
+
+            this.scrollBar.hide();
+
+            this.makeState(STATE_CHOOSE_NODE, null);
+            // TODO draw scroll
+        }
     }
 
     closeManager(event) {

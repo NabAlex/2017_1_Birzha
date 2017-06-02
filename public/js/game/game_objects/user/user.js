@@ -146,10 +146,12 @@ class User extends GameObject {
         if (!placeTower) {
             this.currentNode = this.playerMoveFree(this.currentNode, pointNewTower, units);
         } else { // TODO work fight
-            if(placeTower.typeOfTower === towerType.DEFAULT){
+            if (placeTower.typeOfTower === towerType.DEFAULT ||
+                placeTower.typeOfTower === towerType.MY_MAIN){
                 this.playerMoveLink(this.currentNode, placeTower.parentNode, units);
             } else
-            if (placeTower.typeOfTower === towerType.ENEMY) {
+            if (placeTower.typeOfTower === towerType.ENEMY ||
+                placeTower.typeOfTower === towerType.ENEMY_MAIN) {
                 this.playerMoveFight(this.currentNode, placeTower.parentNode, units);
             } else {
                 this.currentNode = this.playerMoveBonus(this.currentNode, placeTower, units);
@@ -192,7 +194,7 @@ class User extends GameObject {
         if(!isMain)
             tower = new Tower(this.world, point.x, point.y, towerType.DEFAULT, units);
         else
-            tower = new Tower(this.world, point.x, point.y, towerType.MAIN, units);
+            tower = new Tower(this.world, point.x, point.y, towerType.MY_MAIN, units);
         tower.setUserColor(this.color);
         tower.client_id = this.pid;
         return tower;
@@ -225,29 +227,22 @@ class User extends GameObject {
     acceptMove(json) {
         let result = json["result"];
         let valueUpdate = json["valueUpdate"];
-        if(result === "ACCEPT_LOSE"){
-            if(this.waitNode && this.waitUnits) {
-                let fromNode = this.waitNode;
-                fromNode.data.units -= this.waitUnits;
-            }
 
-            if(valueUpdate) {
-                valueUpdate = valueUpdate.filter((item)=>{
-                    let tower = this.world.getTowerFromMap({x: item.x, y: item.y});
-                    return (tower.client_id === this.pid);
-                });
+        if(valueUpdate) {
+            let ourUpdate = valueUpdate.filter((item)=>{
+                let tower = this.world.getTowerFromMap({x: item.x, y: item.y});
+                return (tower.client_id === this.pid);
+            });
 
-                valueUpdate.forEach((item)=>{
-                    let newUnits = item["value"];
-                    this.world.getTowerFromMap({x: item["x"], y: item["y"]}).changeUnits(newUnits);
-                });
-            }
+            ourUpdate.forEach((item)=>{
+                let newUnits = item["value"];
+                this.world.getTowerFromMap({x: item["x"], y: item["y"]}).changeUnits(newUnits);
+            });
         }
 
+
         let newNodes = json["newNodes"];
-
         if(newNodes) {
-
             let myNewNode = newNodes.find((item)=>{
                 return (item.pid === this.pid);
             });
@@ -257,13 +252,11 @@ class User extends GameObject {
                     return;
 
                 let fromNode = this.waitNode;
-                let unitsCount = this.waitUnits;
                 let newUnits = myNewNode.value;
                 let newPoint = {
                     x: myNewNode.x,
                     y: myNewNode.y
                 };
-                fromNode.data.units -= unitsCount;
 
                 let tower = this.generateMyTower(newPoint, newUnits);
                 this.world.addTowerToMap(newPoint, tower);
@@ -276,6 +269,10 @@ class User extends GameObject {
         this.drawObject();
         this.waitUnits = null;
         this.waitNode = null;
+    }
+
+    removeAll(){
+        this.myGraph.destruct();
     }
 
     destruct(){

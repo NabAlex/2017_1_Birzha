@@ -53,6 +53,12 @@ class GraphTree {
     removeNode(point){
         let removedTower = this.world.getTowerFromMap(point);
         this.tree.removeNode(removedTower.parentNode);
+        for (let shape of this.shapes.keys()) {
+            if(shape.pointX === point.x && shape.pointY === point.y){
+                this.shapes.delete(shape);
+                break;
+            }
+        }
         removedTower.destruct();
     }
 
@@ -142,7 +148,6 @@ class GraphTree {
         let fromPoint = byLine(1 / lamda);
         let toPoint = byLine(lamda);
 
-        console.log(fromPoint, toPoint);
         if(!animate) {
             this.graphLine.graphics.moveTo(fromPoint.x, fromPoint.y);
             this.graphLine.graphics.lineTo(toPoint.x, toPoint.y);
@@ -150,7 +155,10 @@ class GraphTree {
         }
         else {
             let line = new createjs.Shape();
-            line.graphics.beginStroke("red").setStrokeStyle(mainConfiguration.lightWidth).moveTo(fromPoint.x, fromPoint.y);
+            line.graphics.beginStroke(this.lineColor)
+                .setStrokeStyle(mainConfiguration.lightWidth)
+                .moveTo(fromPoint.x, fromPoint.y);
+
             let cmd = line.graphics.lineTo(fromPoint.x, fromPoint.y).command;
 
             createjs.Tween.get(cmd).to({x: toPoint.x, y: toPoint.y}, mainConfiguration.animateLightTime);

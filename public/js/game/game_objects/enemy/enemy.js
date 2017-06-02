@@ -19,6 +19,7 @@ class Enemy extends GameObject {
 
         this.enemyGraph = new GraphTree(world, this.color);
         let tower = this.generateEnemyTower(point, info.units, true);
+        tower.status = WAS_CREATED_TOWER;
 
         this.world.addTowerToMap(point, tower);
 
@@ -46,7 +47,7 @@ class Enemy extends GameObject {
         if(!isMain)
             tower = new Tower(this.world, point.x, point.y, towerType.ENEMY, units);
         else
-            tower = new Tower(this.world, point.x, point.y, towerType.MAIN, units);
+            tower = new Tower(this.world, point.x, point.y, towerType.ENEMY_MAIN, units);
 
         tower.client_id = this.pid;
         tower.setUserColor(this.color);

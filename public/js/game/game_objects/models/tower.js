@@ -100,7 +100,11 @@ class Tower {
                 color = this.userColor;
                 fill = false;
                 break;
-            case towerType.MAIN:
+            case towerType.ENEMY_MAIN:
+                color =this.userColor;
+                fill = false;
+                break;
+            case towerType.MY_MAIN:
                 color =this.userColor;
                 fill = false;
                 break;
@@ -157,9 +161,9 @@ class Tower {
         if(this.cache) {
             this.world.map.removeChild(this.cache.circle);
             this.world.map.removeChild(this.cache.text);
-            this.world.area.markSelectedCell(this.pointX, this.pointY, false);
-            this.world.removeTowerFromMap({x: this.pointX, y: this.pointY});
         }
+        this.world.area.markSelectedCell(this.pointX, this.pointY, false);
+        this.world.removeTowerFromMap({x: this.pointX, y: this.pointY});
     }
 
     animate(alpha){
@@ -181,8 +185,8 @@ class Tower {
 
             let style = this.getStyle();
             let shape = new createjs.Bitmap(resources.getResult(style.color+"Tower"));
-            shape.scaleX = 1.1;
-            shape.scaleY = 1.1;
+            shape.scaleX = 1;
+            shape.scaleY = 1;
 
             this.cache.circle = shape;
 

@@ -21,7 +21,7 @@
     background: #ffffff;
     color: #000;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    width: 15%;
+    width: 20%;
     padding: 10px 0 10px 0;
     box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
@@ -44,6 +44,7 @@
     width: 33%;
     margin-bottom: 7px;
     font-size: 20px;
+    overflow: hidden;
 }
 
 .MenuBoard#board{
@@ -54,6 +55,7 @@
     background: white;
     box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
+
 
 .MenuBoard > div{
     width: 70px;
@@ -110,14 +112,22 @@
 .CyclicNotifyBoard {
     position: absolute;
     z-index: 3;
-    bottom: 20px;
-    right: 20px;
+    left: 35%;
+    top: 20px;
     background: #ffffff;
     color: #000;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    width: 10%;
+    width: 30%;
     padding: 10px 0 10px 0;
     box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    animation-name: push-opacity;
+    animation-duration: 5s;
+}
+
+@keyframes push-opacity {
+    0%   { opacity: 1; }
+    30%   { opacity: 1; }
+    100% { opacity: 0; }
 }
 
 /**
@@ -135,6 +145,20 @@
     margin: 10px;
     padding: 10px;
 }
-
 .btn-push-retry { }
 .btn-exit { }
+
+/**
+ * Progress
+ */
+
+#cyclic-time-progress{
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 0.7vh;
+    width: 100%;
+    border: 0;
+}
+

@@ -2,10 +2,6 @@ import currentroom from '../../../templates/currentroom';
 
 class UserListBoard {
     constructor(root) {
-        root.innerHTML = currentroom({
-            listUsers: [] /* null */
-        });
-
         this.root = root;
     }
 
@@ -14,6 +10,8 @@ class UserListBoard {
             listUsers: userList
         });
     }
+
+    // todo
 }
 
 export default UserListBoard;

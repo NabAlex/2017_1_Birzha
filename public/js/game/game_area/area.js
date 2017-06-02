@@ -6,7 +6,7 @@ class Area {
         this.canvas.id = "canvas-area";
         this.canvas.style.position = "absolute";
         this.canvas.style.zIndex = 0;
-        this.canvas.style.left = "0px";
+        this.canvas.style.left = 0;
         this.offset = {
             x: 0,
             y: 0
@@ -91,6 +91,7 @@ class Area {
                 container.visible = j < xCount + 5 && i < yCount + 5;
 
                 t.push(container);
+                container.state = "free";
                 this.world.addChildAt(container);
             }
             this.cells.push(t);
@@ -133,9 +134,11 @@ class Area {
     markSelectedCell(x, y, status) {
         if(status) {
             this.cells[y][x].children[1].alpha = areaConf.cellStyles.selected.alpha;
+            this.cells[y][x].state = "busy";
         }
         else {
             this.cells[y][x].children[1].alpha = areaConf.cellStyles.default.alpha;
+            this.cells[y][x].state = "free";
         }
         this.stage.update();
     }
@@ -151,7 +154,10 @@ class Area {
                 break;
         }
         if(this.currentCell){
-            this.cells[this.currentCell.y][this.currentCell.x].children[1].alpha = areaConf.cellStyles.default.alpha;
+            if(this.cells[this.currentCell.y][this.currentCell.x].state === "busy")
+                this.cells[this.currentCell.y][this.currentCell.x].children[1].alpha = areaConf.cellStyles.selected.alpha;
+            else
+                this.cells[this.currentCell.y][this.currentCell.x].children[1].alpha = areaConf.cellStyles.default.alpha;
         }
         this.cells[y][x].children[1].alpha = areaConf.cellStyles[typeStr].alpha;
         this.currentCell = {

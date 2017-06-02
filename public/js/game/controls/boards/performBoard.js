@@ -22,6 +22,10 @@ class PerformBoard {
 
             finalDiv.countPlayers = roomCount;
             finalDiv.onclick = this.wrapperClick.bind(this);
+            finalDiv.childNodes.forEach((item)=>{
+                item.onclick = this.wrapperClick.bind(this);
+                item.setAttribute("num", roomCount);
+            });
             finalDiv.setAttribute("num", roomCount);
 
             this.board.appendChild(finalDiv);
@@ -35,6 +39,9 @@ class PerformBoard {
 
     wrapperClick(event) {
         let count = event.target.getAttribute("num");
+        event.stopPropagation();
+        if(count == null || count === '')
+            return true;
         this.callback(count);
     }
 

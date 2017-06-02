@@ -27,7 +27,9 @@ class ServerConnect {
      */
     sendData(json_data) {
         let needSend = ServerConnect.toJson(json_data);
-        console.log("Send: " + needSend);
+        if(needSend["action"] !== ACTION_PING)
+            console.log("Send: " + needSend);
+
         this.socket.send(needSend);
     }
 

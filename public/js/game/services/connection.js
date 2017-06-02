@@ -56,7 +56,8 @@ class Connection {
     }
 
     onMessage(json) {
-        console.log("Get json: " + JSON.stringify(json));
+        if(json["datatype"]!=="DATATYPE_PONG")
+            console.log("Get json: " + JSON.stringify(json));
         if(json["datatype"] in this.methodMap) {
             this.methodMap[json["datatype"]].map( (func) => func(json) );
         }

@@ -4,9 +4,13 @@ import User from '../game_objects/user/user';
 import Tower from '../game_objects/models/tower';
 
 import Controls from '../controls/gameControls';
+import FinishBoard from '../controls/boards/finish_board';
 
 import BasePage from './base_page';
 import Enemy from '../game_objects/enemy/enemy';
+
+import { tickerInstance } from '../ulits/ticker';
+import { getPushContainer } from '../ulits/system';
 
 class PlayPage extends BasePage {
     constructor(world, connection) {
@@ -23,14 +27,15 @@ class PlayPage extends BasePage {
         this.listeners = [];
     }
 
-    splitUsers(array, meId) {
+    splitUsers(array, nickname) {
         let me = null;
         for(let user in array) {
             array[user].color = window.userColors[(user % 4)];
             this.controls.scoreBoard
                 .addPlayerToScoreBoard(array[user].nickname, array[user].units);
-            if(array[user].id === meId) {
+            if(array[user].nickname === nickname) {
                 me = array[user];
+                console.log(array[user]);
             } else {
                 this.enemiesData.push(array[user]);
             }
@@ -39,7 +44,7 @@ class PlayPage extends BasePage {
     }
 
 
-    startPage(room, meId) {
+    startPage(room, myNickname) {
         this.room = room;
         this.enemiesObject = [];
         this.user = null;
@@ -52,11 +57,10 @@ class PlayPage extends BasePage {
         let lastScores = null;
 
         let perfomingPlayer = room.pid;
-
-        let meData = this.splitUsers(room.players, meId);
+        let meData = this.splitUsers(room.players, myNickname);
         this.user = new User(this.connection, this.world, meData);
-
-        if(perfomingPlayer === meId) {
+        let myId = this.user.pid;
+        if(perfomingPlayer === myId) {
             this.nowPerforming = this.user;
             this.user.setPerforming(true);
         }
@@ -110,7 +114,10 @@ class PlayPage extends BasePage {
         this.listeners.push({
             method: DATATYPE_YOU_WIN,
             id: this.connection.addEventListen(DATATYPE_YOU_WIN, () => {
-                this.stopPage();
+                // this.stopPage();
+                // this.connection.send(ACTION_EXIT_ROOM);
+
+                this.showWin(this.user.nickName);
             })
         });
 
@@ -140,12 +147,16 @@ class PlayPage extends BasePage {
 
                 //   debugger;
 
-                if (deadPid) {
+                if (deadPid != null) {
                     if (deadPid !== this.user.pid) {
                         this.enemiesObject[deadPid].removeAll();
                         delete this.enemiesObject[deadPid];
+
                     } else {
-                        this.stopPage();
+                        /* show */
+                        this.user.removeAll();
+                        this.showLose(this.user.nickName);
+                     //   this.stopPage();
                         return;
                     }
                 }
@@ -183,6 +194,7 @@ class PlayPage extends BasePage {
                     });
                 }
 
+                /* update enemies */
                 if (valueUpdates) {
                     valueUpdates.forEach((update) => {
                         let point = {
@@ -198,6 +210,7 @@ class PlayPage extends BasePage {
                 }
 
                 if (result === "ACCEPT_WIN" || result === "ACCEPT_LOSE")
+                    /* update user */
                     this.user.acceptMove(json);
 
                 if (newLinks) {
@@ -233,6 +246,20 @@ class PlayPage extends BasePage {
                 this.nowPerforming.setPerforming(true);
                 this.controls.pushNotify({text: "Now playing " + this.nowPerforming.nickName + " !"});
                 this.world.update();
+
+                for(let i = 0; i<12; i++){
+                    let str = "";
+                    for(let j = 0; j<12; j++){
+                        if(this.world.arrayMap[j] != null) {
+                            if (this.world.arrayMap[j][i] != null) {
+                                str += this.world.arrayMap[j][i].units + " ";
+                            } else
+                                str += "0 ";
+                        } else
+                            str += "0 ";
+                    }
+                    console.log(str);
+                }
             })
         });
 
@@ -276,8 +303,32 @@ class PlayPage extends BasePage {
         });
 
         window.onbeforeunload = ()=>{
+            this.connection.send(ACTION_EXIT_ROOM);
             this.connection.disconnect();
         };
+    }
+
+    showStatus(boardStatus) {
+        boardStatus.show(() => {
+            /* hide */
+            console.log("need request pointer");
+            this.world.canvas.requestPointerLock();
+            boardStatus.hide();
+        }, () => {
+            /* to menu */
+            this.stopPage();
+            this.connection.send(ACTION_EXIT_ROOM);
+        });
+    }
+
+    showWin(nickname) {
+        document.exitPointerLock();
+        this.showStatus( new FinishBoard(getPushContainer(), "win") );
+    }
+
+    showLose(nickname) {
+        document.exitPointerLock();
+        this.showStatus( new FinishBoard(getPushContainer(), "lose") );
     }
 
     removeAllListeners(){
@@ -289,7 +340,6 @@ class PlayPage extends BasePage {
     }
 
     stopPage() {
-        debugger;
         this.world.map.removeAllChildren();
         this.world.update();
         this.world.clear();
@@ -302,7 +352,7 @@ class PlayPage extends BasePage {
         this.enemiesObject = [];
         this.enemiesData = [];
         this.controls = null;
-        this.ticker.removeAllCallbacks();
+        tickerInstance.removeAllCallbacks();
         document.exitPointerLock();
     }
 }

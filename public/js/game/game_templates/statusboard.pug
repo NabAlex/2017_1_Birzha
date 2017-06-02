@@ -1,14 +1,13 @@
-div(id="push-container" class="div-conrainer")
-    div(class="div-center" style="height:200px;")
-        case status
-            when "win"
-                img(src=srcImage class="btn-push-image")
-                h1 You win!
-                p Now you can use!
-            when "lose"
-                img(src=srcImage class="btn-push-image")
-                h1 You lost!
+div(class="div-center" style="height:200px;")
+    case status
+        when "win"
+            img(src=srcImage class="btn-push-image")
+            h1 You win!
+            p Now you can use!
+        when "lose"
+            img(src=srcImage class="btn-push-image")
+            h1 You lost!
 
-        div
-            button(type="button" href="/game" class="btn btn-push btn-push-retry") Retry
-            button(type="button" href="/" class="btn btn-push btn-exit") Back to Menu
+    div
+        button(type="button" id="status-board-tomenu" class="btn btn-push btn-push-retry") Retry
+        button(type="button" id="status-board-hide" class="btn btn-push btn-exit") Hide and Continue

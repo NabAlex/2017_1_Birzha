@@ -4,4 +4,8 @@ function randomInteger(min, max) {
     return rand;
 }
 
-export { randomInteger };
+function getPushContainer() {
+    return document.getElementById("push-container");
+}
+
+export { randomInteger, getPushContainer };

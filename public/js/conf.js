@@ -10,7 +10,7 @@ window.mainConfiguration = {
 
     pingPongTime: 5000,
 
-    pushNotifyDelay: 2000,
+    pushNotifyDelay: 5000,
     pushNotifyDelta: 100,
 
     starSize: 1,
@@ -54,7 +54,7 @@ window.conf = {
         {prefixSocket : "wss://", prefix: "https://", host: "cyclic-server.herokuapp.com", port: "", path: "/game"},
         {prefixSocket : "ws://", prefix: "http://", host: "172.16.94.65", port: ":8081", path: "/game"}
     ],
-    baseIP: 5,
+    baseIP: 3,
 
     // UI
     rectSize: 100,
@@ -76,7 +76,8 @@ window.towerType = {
     DEFAULT: 0,
     BONUS: 1,
     ENEMY: 2,
-    MAIN: 3
+    MY_MAIN: 3,
+    ENEMY_MAIN: 4
 };
 
 window.userColors = {
@@ -92,7 +93,7 @@ window.pushText = {
 
 window.srcImages = {
     "win": "/img/youwin.png",
-    "lost": "/img/youlost.png"
+    "lose": "/img/youlose.png"
 };
 window.userTowers = {
     "red": "../img/nodes/green.png",
@@ -118,7 +119,7 @@ window.areaConf = {
         },
         "selected": {
             color: "#dbffd0",
-            alpha: 0.5
+            alpha: 0.2
         }
     }
 };
