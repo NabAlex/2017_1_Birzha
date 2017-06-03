@@ -29,7 +29,8 @@ class User extends GameObject {
             "getClientId": () => { return this.pid; },
             "getPerforming": () => { return this.performing },
             "getMyColor": () => { return this.color },
-            "getTower": () => { return this.currentNode.data; }
+            "getTower": () => { return this.currentNode.data; },
+            "getTowerByPoint": this.getFromMap.bind(this)
         }, point);
 
         this.userAction = new UserAction(connection);

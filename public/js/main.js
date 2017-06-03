@@ -4,23 +4,29 @@ import { routerInstance } from './router';
 import About from './blocks/about/about'
 import serviceWorkerLoader from '../../worker_loader';
 
-import { isLogin, setOnlyBar } from './util';
+import { isLogin, setOnlyBar, setCookiesAndBar } from './util';
 
 import {
     loginPack,
     mainPack
 } from './controller';
 
+import { authInstance } from './auth';
+
 (function () {
-    // auth.getMe(
-    //     (user) => {
-    //         console.log("Success login !");
-    //         routerInstance.updateNewPackToIndex(mainPack);
-    //
-    //         setCookiesAndBar(true, user.login);
-    //     },
-    //     () => { ifError("Wrong login or password!"); console.log("cannot login in getMe!"); }
-    // )
+    if (isLogin())
+        authInstance.getMe(
+            () => {
+                /* success */
+                console.log("cookies is true");
+            },
+            () => {
+                /* fail */
+                console.log("cookies is wrong");
+                setCookiesAndBar(false);
+                routerInstance.updateNewPackToIndex(loginPack);
+            }
+        );
 
     let url = window.location.pathname;
 

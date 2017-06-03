@@ -23,7 +23,6 @@ class MenuPage extends BasePage {
         let cenX = cellCenter.x, cenY = cellCenter.y;
         this.world.setOffsetForCenter(cenX, cenY);
         scrollTo(0, 0);
-        document.body.style.overflow = "hidden";
 
         this.buttonMenu = this.world.newImage(resource.getResult("playButton"));
         this.buttonMenu.x = cenX;

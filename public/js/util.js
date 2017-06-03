@@ -66,6 +66,7 @@ export function setCookiesAndBar(authFlag, name) {
 
 
 export function isLogin() {
+    // debugger;
     let status = getCookie('logged');
     if (status === "true") {
         console.log("Already login!");

@@ -11,6 +11,7 @@ import PlayPage from './pages/play_page';
 import Connection from './services/connection';
 import Room from './services/room';
 import User from './game_objects/user/user' /* add for debug */
+import { getPushContainer } from './ulits/system';
 
 function loadResourse(callback) {
     let needFilesForProjectManifest = [
@@ -83,7 +84,12 @@ function startGame(elementDOM) {
         });
     };
 
+    getPushContainer().innerHTML = `<div class="cyclic-loader" style="margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;"></div>`;
     loadResourse((result) => {
+        getPushContainer().innerHTML = '';
+
         console.log(result);
         startConnect(result);
     });
@@ -111,7 +117,6 @@ function debugGame(elementDOM) {
     };
 
     let menuPage = new MenuPage(world, iAmReady);
-
     loadResourse((result) => {
         console.log(result);
         menuPage.startPage(result);

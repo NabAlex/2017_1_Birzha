@@ -152,19 +152,31 @@ class UserInterface {
     }
 
     checkCellForVertex(cellPos) {
-        if(Math.abs(cellPos.x - this.currentPos.x) > 2){
+        let dx = cellPos.x - this.currentPos.x,
+            dy = cellPos.y - this.currentPos.y;
+
+        let mabsx = Math.abs(dx),
+            mabsy = Math.abs(dy);
+
+        if(mabsx > 2 ||
+           mabsy > 2 ||
+           mabsx * mabsy === 2 * 2) {
             this.makeState(STATE_DO_STEP);
             return false;
         }
-        if(Math.abs(cellPos.y - this.currentPos.y) > 2) {
-            this.makeState(STATE_DO_STEP);
-            return false;
+
+        if ((mabsx == 2 && mabsy == 0) ||
+            (mabsx == 0 && mabsy == 2)) {
+            console.log(this.currentPos.x + (dx / 2 | 0));
+            let overNode = this.packCallback["getTowerByPoint"]({
+                x: this.currentPos.x + (dx / 2 | 0),
+                y: this.currentPos.y + (dy / 2 | 0)
+            });
+
+            if(overNode)
+                return false;
         }
-        if(Math.abs(cellPos.x - this.currentPos.x) *
-            Math.abs(cellPos.y - this.currentPos.y) === 2 * 2) {
-            this.makeState(STATE_DO_STEP);
-            return false;
-        }
+
         return true;
     }
 

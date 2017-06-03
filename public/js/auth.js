@@ -19,9 +19,7 @@ class Auth {
                     error();
                     return;
                 }
-                response.json().then(function (data) {
-                    success(data);
-                });
+                success();
             }.bind(this))
             .addJson(null)
             .error(function (err) {
@@ -81,36 +79,6 @@ class Auth {
             });
     }
 
-    checkAuth(success, error) {
-        let status = false;
-        if (this.logged) {
-            success();
-            return true;
-        }
-        new Request(conf.ip[conf.baseIP].prefix + conf.ip[conf.baseIP].host + conf.ip[conf.baseIP].port + '/api')
-            .addResponse(function (response) {
-                console.log(response);
-                if (response.status !== 200) {
-                    console.log('Looks like there was a problem. Status Code: ' +
-                        response.status);
-                    error();
-                    return;
-                }
-                this.logged = true;
-                success();
-            }.bind(this))
-            .addJson(null)
-            .error(function (err) {
-                console.log("[ERROR] Error response in login");
-                error();
-            }.bind(this))
-            .request('/login', {
-                method: 'GET'
-            });
-
-        return status;
-    }
-
     register(data, success, errorServer, errorClient) {
         let status = false;
         new Request(conf.ip[conf.baseIP].prefix + conf.ip[conf.baseIP].host + conf.ip[conf.baseIP].port + '/api')
@@ -165,4 +133,4 @@ class Auth {
     }
 }
 
-export default Auth;
+export let authInstance = new Auth();
