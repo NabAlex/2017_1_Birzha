@@ -114,9 +114,6 @@ class PlayPage extends BasePage {
         this.listeners.push({
             method: DATATYPE_YOU_WIN,
             id: this.connection.addEventListen(DATATYPE_YOU_WIN, () => {
-                // this.stopPage();
-                // this.connection.send(ACTION_EXIT_ROOM);
-
                 this.showWin(this.user.nickName);
             })
         });
@@ -249,19 +246,19 @@ class PlayPage extends BasePage {
                 this.controls.pushNotify({text: "Now playing " + this.nowPerforming.nickName + " !"});
                 this.world.update();
 
-                for(let i = 0; i<12; i++){
-                    let str = "";
-                    for(let j = 0; j<12; j++){
-                        if(this.world.arrayMap[j] != null) {
-                            if (this.world.arrayMap[j][i] != null) {
-                                str += this.world.arrayMap[j][i].units + " ";
-                            } else
-                                str += "0 ";
-                        } else
-                            str += "0 ";
-                    }
-                    console.log(str);
-                }
+                // for(let i = 0; i<12; i++){
+                //     let str = "";
+                //     for(let j = 0; j<12; j++){
+                //         if(this.world.arrayMap[j] != null) {
+                //             if (this.world.arrayMap[j][i] != null) {
+                //                 str += this.world.arrayMap[j][i].units + " ";
+                //             } else
+                //                 str += "0 ";
+                //         } else
+                //             str += "0 ";
+                //     }
+                //     console.log(str);
+                // }
             })
         });
 

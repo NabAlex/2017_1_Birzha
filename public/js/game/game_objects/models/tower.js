@@ -22,6 +22,7 @@ class Tower {
         this._client_id = null;
         this.dAlpha = 0.01;
 
+
         this._status = WAS_CREATED_TOWER;
     }
 
@@ -169,8 +170,13 @@ class Tower {
     animate(alpha){
         if(alpha){
             this.cache.circle.alpha = alpha;
-            this.cache.circle.scaleX = 1.0;
-            this.cache.circle.scaleY = 1.0;
+            if(this.typeOfTower === towerType.ENEMY_MAIN || this.typeOfTower === towerType.MY_MAIN) {
+                this.cache.circle.scaleX = 1.1;
+                this.cache.circle.scaleY = 1.1;
+            } else {
+                this.cache.circle.scaleX = 0.9;
+                this.cache.circle.scaleY = 0.9;
+            }
             return;
         }
         if(this.cache.circle.alpha>=1 && this.dAlpha>0)
@@ -189,8 +195,13 @@ class Tower {
 
             let style = this.getStyle();
             let shape = new createjs.Bitmap(resources.getResult(style.color+"Tower"));
-            shape.scaleX = 1;
-            shape.scaleY = 1;
+            if(this.typeOfTower === towerType.ENEMY_MAIN || this.typeOfTower === towerType.MY_MAIN) {
+                shape.scaleX = 1.1;
+                shape.scaleY = 1.1;
+            } else {
+                shape.scaleX = 0.9;
+                shape.scaleY = 0.9;
+            }
 
             this.cache.circle = shape;
 
