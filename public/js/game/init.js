@@ -11,15 +11,16 @@ import PlayPage from './pages/play_page';
 import Connection from './services/connection';
 import Room from './services/room';
 import User from './game_objects/user/user' /* add for debug */
+import { getPushContainer } from './ulits/system';
 
 function loadResourse(callback) {
     let needFilesForProjectManifest = [
         {id: "playButton", src: "./img/play.png"},
-        {id: "greenTower", src: userTowers["green"]},
-        {id: "redTower", src: userTowers["red"]},
-        {id: "blueTower", src: userTowers["blue"]},
-        {id: "yellowTower", src: userTowers["yellow"]},
-        {id: "bonusTower", src: userTowers["bonus"]}
+        {id: "greenTower", src: "./img/play.png"},
+        {id: "redTower", src: "./img/play.png"},
+        {id: "blueTower", src: "./img/play.png"},
+        {id: "yellowTower", src: "./img/play.png"},
+        {id: "bonusTower", src: "./img/play.png"}
     ];
 
     new Loader(needFilesForProjectManifest, callback);
@@ -82,7 +83,12 @@ function startGame(elementDOM) {
         });
     };
 
+    getPushContainer().innerHTML = `<div class="cyclic-loader" style="margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;"></div>`;
     loadResourse((result) => {
+        getPushContainer().innerHTML = '';
+
         console.log(result);
         startConnect(result);
     });

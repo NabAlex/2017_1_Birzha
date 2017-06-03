@@ -5,15 +5,13 @@ import LeaderBoardView from './views/leaderboardView';
 import GameView from './views/gameView';
 import AboutView from './views/aboutView';
 
-import Auth from './auth';
+import { authInstance } from './auth';
 import {getCookie, setCookie, setCookiesAndBar} from './util';
 import {routerInstance} from './router';
 
 import {registrationForm, loginForm, menuForm} from './forms'
 
 import {Request} from './request';
-
-let auth = new Auth();
 
 function registrationCall(event) {
     event.preventDefault();
@@ -26,7 +24,7 @@ function registrationCall(event) {
 
     let regData = registrationForm.getFormData();
 
-    auth.register(regData,
+    authInstance.register(regData,
         () => {
             console.log("Success login !");
             routerInstance.go("/login");
@@ -57,7 +55,7 @@ function loginCall(event) {
 
     let loginData = loginForm.getFormData();
 
-    auth.auth(loginData,
+    authInstance.auth(loginData,
         (data) => {
             data.json().then((json) => {
                 console.log("Success enter!");
@@ -76,7 +74,7 @@ function loginCall(event) {
 }
 
 function guestCall(event) {
-    auth.authTemporary((data) => {
+    authInstance.authTemporary((data) => {
             data.json().then((json) => {
                 console.log("Success enter as Guest!");
 
@@ -95,7 +93,7 @@ function logoutCall(event) {
     setCookiesAndBar(false);
     routerInstance.updateNewPackToIndex(loginPack);
 
-    auth.logout(
+    authInstance.logout(
         () => {
             console.log("success logout");
         },

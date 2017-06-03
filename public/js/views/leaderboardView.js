@@ -10,7 +10,6 @@ class LeaderBoardView extends BaseView {
             return;
         }
 
-        console.log("lol");
         response.json().then((json) => {
             console.log(json);
             this.node.innerHTML = highscore({ users: json["scoreBoard"] });

@@ -145,8 +145,6 @@ class PlayPage extends BasePage {
                 let scores = json["scores"];
                 let deadPid = json["deadpid"];
 
-                //   debugger;
-
                 if (deadPid != null) {
                     if (deadPid !== this.user.pid) {
                         this.enemiesObject[deadPid].removeAll();
