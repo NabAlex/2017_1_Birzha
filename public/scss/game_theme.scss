@@ -1,0 +1,12 @@
+$colors: ('turquoise', 'green', 'blue', 'orange', 'purple');
+
+.game-score-board-div {
+  width: 10px;
+  height: 10px;
+}
+
+@each $item in $colors {
+  .game-#{$item} {
+    background: #{$item};
+  }
+}

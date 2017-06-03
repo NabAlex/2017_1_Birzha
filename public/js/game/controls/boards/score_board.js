@@ -18,9 +18,12 @@ class ScoreBoard{
         this.scores = new Map();
     }
 
-    addPlayerToScoreBoard(nickname, score){
+    addPlayerToScoreBoard(nickname, score, colorName) {
         let scoreBoardLine = document.createElement("div");
         scoreBoardLine.id = "line";
+
+        let color_el = document.createElement("div");
+        color_el.className = "game-score-board-div game-" + colorName;
 
         let score_el = document.createElement("div");
         score_el.className = "score-value";
@@ -30,11 +33,7 @@ class ScoreBoard{
         nickname_el.className = "score-nickname";
         nickname_el.textContent = nickname;
 
-        let number_el = document.createElement("div");
-        number_el.className = "score-number";
-        number_el.textContent = this.scores.size + 1 + ".";
-
-        scoreBoardLine.appendChild(number_el);
+        scoreBoardLine.appendChild(color_el);
         scoreBoardLine.appendChild(nickname_el);
         scoreBoardLine.appendChild(score_el);
 

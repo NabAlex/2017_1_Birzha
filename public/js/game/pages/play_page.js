@@ -32,7 +32,7 @@ class PlayPage extends BasePage {
         for(let user in array) {
             array[user].color = window.userColors[(user % 4)];
             this.controls.scoreBoard
-                .addPlayerToScoreBoard(array[user].nickname, array[user].units);
+                .addPlayerToScoreBoard(array[user].nickname, array[user].units, array[user].color);
             if(array[user].nickname === nickname) {
                 me = array[user];
                 console.log(array[user]);
@@ -231,12 +231,14 @@ class PlayPage extends BasePage {
                     if (JSON.stringify(lastScores) !== JSON.stringify(scores)) {
                         this.controls.scoreBoard.clear();
                         scores.forEach((score) => {
-                            let nickname;
+                            let tempUser;
                             if (score.pid === this.user.pid)
-                                nickname = this.user.nickName;
+                                tempUser = this.user;
                             else
-                                nickname = this.enemiesObject[score.pid].nickName;
-                            this.controls.scoreBoard.addPlayerToScoreBoard(nickname, score.score);
+                                tempUser = this.enemiesObject[score.pid];
+                            this.controls.scoreBoard.addPlayerToScoreBoard(tempUser.nickName,
+                                score.score,
+                                tempUser.color);
                         });
                     }
                 }
