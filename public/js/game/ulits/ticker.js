@@ -32,7 +32,7 @@ class Ticker {
     }
 
     static getNow() {
-        return (new Date()).getTime()
+        return (new Date()).getTime();
     }
 
     addCallback(callBack){

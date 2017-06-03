@@ -111,6 +111,7 @@ function debugGame(elementDOM) {
     };
 
     let menuPage = new MenuPage(world, iAmReady);
+
     loadResourse((result) => {
         console.log(result);
         menuPage.startPage(result);

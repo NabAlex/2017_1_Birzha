@@ -74,7 +74,7 @@ class PlayPage extends BasePage {
             }
         }
 
-        this.controls.progressBar.start(conf.timeForStep);
+        this.controls.progressBar.start();
 
         this.listeners.push({
             method: DATATYPE_NEWBONUS,
@@ -244,7 +244,7 @@ class PlayPage extends BasePage {
                 }
 
                 this.controls.progressBar.reset();
-                this.controls.progressBar.start(conf.timeForStep);
+                this.controls.progressBar.start();
                 this.nowPerforming.setPerforming(true);
                 this.controls.pushNotify({text: "Now playing " + this.nowPerforming.nickName + " !"});
                 this.world.update();

@@ -169,6 +169,8 @@ class Tower {
     animate(alpha){
         if(alpha){
             this.cache.circle.alpha = alpha;
+            this.cache.circle.scaleX = 1.0;
+            this.cache.circle.scaleY = 1.0;
             return;
         }
         if(this.cache.circle.alpha>=1 && this.dAlpha>0)

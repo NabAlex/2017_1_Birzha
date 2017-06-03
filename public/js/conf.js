@@ -18,7 +18,7 @@ window.mainConfiguration = {
 
     animateLightTime: 200,
     lightWidth: 5,
-    timeForStep: 27000
+    timeForStep: 25000
 };
 
 window.DATATYPE_ROOMINFO = "DATATYPE_ROOMINFO";

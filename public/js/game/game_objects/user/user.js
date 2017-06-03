@@ -220,7 +220,6 @@ class User extends GameObject {
     removeNode(point){
         this.myGraph.removeNode(point);
         this.setCurrentNode(this.myGraph.getTree.rootNode.data.point);
-        this.userInterface.currentPos = this.currentNode.data.point;
         this.drawObject();
     }
 
