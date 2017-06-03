@@ -39,14 +39,26 @@
     margin-bottom: 15px;
 }
 
-.ScoreBoard > #line > div{
-    float: left;
-    width: 33%;
-    margin-bottom: 7px;
+.ScoreBoard > #line {
+    display: block;
+}
+
+.ScoreBoard > #line > div:first-child {
+    width: 5%;
+    padding: 10px;
+    margin-left: 4%;
+    margin-bottom: 4px;
+    border-radius: 10px;
+}
+
+.ScoreBoard > #line > div {
+    display: inline-block;
+    width: 44%;
     font-size: 20px;
     overflow: hidden;
 }
 
+.ScoreBoard > #line
 .MenuBoard#board{
     position: absolute;
     z-index: 3;
