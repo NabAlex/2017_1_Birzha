@@ -13,6 +13,11 @@ import {
 
 import { authInstance } from './auth';
 
+if (window.location.protocol != "https") {
+    window.location = "https://" + window.location.href.substring(window.location.protocol.length, window.location.href.length);
+    window.location.reload();
+}
+
 (function () {
     if (isLogin())
         authInstance.getMe(
