@@ -13,9 +13,9 @@ import {
 
 import { authInstance } from './auth';
 
-if (window.location.protocol != "https") {
-    window.location = "https://" + window.location.href.substring(window.location.protocol.length, window.location.href.length);
-    window.location.reload();
+if (window.location.protocol != "https:" && window.location.host === "cyclicgame.herokuapp.com") {
+    window.location.protocol = "https:";
+//    window.location.reload();
 }
 
 (function () {
