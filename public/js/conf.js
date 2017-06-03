@@ -54,7 +54,7 @@ window.conf = {
         {prefixSocket : "wss://", prefix: "https://", host: "cyclic-server.herokuapp.com", port: "", path: "/game"},
         {prefixSocket : "ws://", prefix: "http://", host: "172.16.94.65", port: ":8081", path: "/game"}
     ],
-    baseIP: 3,
+    baseIP: 5,
 
     // UI
     rectSize: 100,
