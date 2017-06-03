@@ -48,6 +48,14 @@ class ScoreBoard{
         this.scores.clear();
     }
 
+    removeByNick(nick){
+        this.scores.forEach((line)=>{
+            if(line.getElementsByClassName("score-nickname")[0]===nick){
+                this.scoreBoard.removeChild(line);
+            }
+        });
+    }
+
     changeValue(nickname, newScore) {
         if(!(nickname in this.scores)) {
             return false;

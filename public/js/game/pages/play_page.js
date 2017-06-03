@@ -97,7 +97,9 @@ class PlayPage extends BasePage {
         this.listeners.push({
             method: DATATYPE_PLAYER_DISCONNECT,
             id: this.connection.addEventListen(DATATYPE_PLAYER_DISCONNECT, (json) => {
+                this.controls.pushNotify({text: "Player " + this.nowPerforming.nickName+" is disconnected"});
                 let pid = json["pid"];
+                this.controls.scoreBoard.removeByNick(this.enemiesObject[pid].nickName);
                 let nextpid = json["giveMoveToPid"];
                 this.enemiesObject[pid].removeAll();
                 delete this.enemiesObject[pid];
@@ -107,7 +109,7 @@ class PlayPage extends BasePage {
                 else
                     this.nowPerforming = this.enemiesObject[nextpid];
                 this.nowPerforming.setPerforming(true);
-                this.controls.pushNotify({text: "Now playing " + this.nowPerforming.nickName + " !"});
+                this.controls.pushNotify({text: "Now playing " + this.nowPerforming.nickName});
             })
         });
 

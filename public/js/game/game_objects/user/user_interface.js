@@ -1,3 +1,5 @@
+import { getPaddings } from '../../ulits/system';
+
 const STATE_BEGIN = 0,
       STATE_FLY = 1,
       STATE_CHOOSE_NODE = 2,
@@ -75,7 +77,6 @@ class UserInterface {
         this.probablyLine = this.world.newLine("black");
         this.probablyCircle = this.world.newShape(null, conf.userSize, "DeepSkyBlue", false);
 
-
         this.packCallback = packCallback;
         this.startPos = startPos;
 
@@ -131,8 +132,10 @@ class UserInterface {
             } else
                 this.world.area.markCurrentCell(cellPos.x, cellPos.y, 0);
 
+            let res = getPaddings(this.world.area.getPixelPoint( this.currentPos.x, this.currentPos.y ),
+                this.probablyCircle);
             this.probablyLine.graphics.setStrokeStyle(1).beginStroke(this.color);
-            this.probablyLine.graphics.moveTo(pxPoint.x, pxPoint.y);
+            this.probablyLine.graphics.moveTo(res.from.x, res.from.y);
             this.probablyLine.graphics.lineTo(this.probablyCircle.x, this.probablyCircle.y);
             this.probablyLine.graphics.endStroke();
         } else if (this.currentMode === STATE_CHOOSE_NODE) {
@@ -199,6 +202,7 @@ class UserInterface {
         }
 
         this.packCallback["addTower"](newPos, units);
+        this.probablyLine.graphics.clear();
         this.world.area.markSelectedCell(newPos.x, newPos.y, true);
 
         this.world.update();

@@ -1,5 +1,6 @@
 import Tree from './tree';
 import { tickerInstance } from '../ulits/ticker';
+import { getPaddings } from '../ulits/system';
 
 class GraphTree {
     constructor(map, color) {
@@ -69,6 +70,7 @@ class GraphTree {
     }
 
     destruct() {
+        this.clearStackAnimatedNodes();
         this.world.stage.removeChild(this.graphLine);
         this.graphLine.graphics.clear();
         console.log(this.shapes);
@@ -87,8 +89,7 @@ class GraphTree {
         tower.draw();
     }
 
-    showNodes() {
-        /* removes all animate nodes */
+    clearStackAnimatedNodes() {
         while(true) {
             let tempLine = this.tempLineArray.pop();
             if(!tempLine)
@@ -96,6 +97,11 @@ class GraphTree {
 
             this.world.map.removeChild(tempLine);
         }
+    }
+
+    showNodes() {
+        /* removes all animate nodes */
+        this.clearStackAnimatedNodes();
 
         let marker = new Set();
 
@@ -133,25 +139,17 @@ class GraphTree {
     }
 
     drawWireBetweenTowers(from, to, animate) {
-        to = this.world.area.getPixelPoint(to.x, to.y);
-        from = this.world.area.getPixelPoint(from.x, from.y);
-        let x = to.x, y = to.y;
-        let l = Math.sqrt((x - from.x)**2 + (y - from.y)**2);
+        let toCoor = this.world.area.getPixelPoint(to.x, to.y),
+            fromCoor = this.world.area.getPixelPoint(from.x, from.y);
 
-        const byLine = (lamda) => {
-            return {x: (from.x + lamda * x) / (1 + lamda), y: (from.y + lamda * y) / (1 + lamda)};
-        };
-
-        let radius = conf.radiusTower + conf.betweenTowersPadding;
-        let lamda = (l - radius) / radius;
-
-        let fromPoint = byLine(1 / lamda);
-        let toPoint = byLine(lamda);
+        let res = getPaddings(fromCoor, toCoor);
+        let fromPoint = res.from;
+        let toPoint = res.to;
 
         if(!animate) {
             this.graphLine.graphics.moveTo(fromPoint.x, fromPoint.y);
             this.graphLine.graphics.lineTo(toPoint.x, toPoint.y);
-            this.graphLine.graphics.moveTo(x, y);
+            this.graphLine.graphics.moveTo(res.md.x, res.md.y);
         }
         else {
             let line = new createjs.Shape();

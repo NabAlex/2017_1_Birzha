@@ -119,6 +119,7 @@ class User extends GameObject {
         /* make from bonus to user */
         bonusTower.refreshTower(towerType.DEFAULT, newUnits, this.pid);
         bonusTower.setUserColor(this.color);
+        bonusTower.status = WAS_CREATED_TOWER;
         /***************************/
 
         /* action */

@@ -9,7 +9,7 @@ class GameControls{
     constructor(){
         this.scoreBoard = new ScoreBoard();
         this.menuBoard = new MenuBoard();
-        this.zoomBoard = new ZoomBoard();
+        // this.zoomBoard = new ZoomBoard();
         this.progressBar = new ProgressBar();
 
         this.notifyBoard = new NotifyBoard();
@@ -25,7 +25,7 @@ class GameControls{
     destruct(){
         this.scoreBoard.destruct();
         this.menuBoard.destruct();
-        this.zoomBoard.destruct();
+        // this.zoomBoard.destruct();
         this.notifyBoard.hide();
         this.progressBar.stop();
         this.progressBar.hide();

@@ -67,7 +67,6 @@ class Area {
     initArea() {
         // debugger;
         let rectSize = this.rectSize;
-        let borderSize = this.borderSize;
         let xCount = document.documentElement.clientWidth / this.rectSize | 0;
         let yCount = document.documentElement.clientHeight / this.rectSize | 0;
         this.fullSize = {

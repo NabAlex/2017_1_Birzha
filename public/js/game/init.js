@@ -11,7 +11,7 @@ import PlayPage from './pages/play_page';
 import Connection from './services/connection';
 import Room from './services/room';
 import User from './game_objects/user/user' /* add for debug */
-import { getPushContainer } from './ulits/system';
+import { getPushContainer, runFastSpinner, clearFastSpinner } from './ulits/system';
 
 function loadResourse(callback) {
     let needFilesForProjectManifest = [
@@ -69,6 +69,8 @@ function startGame(elementDOM) {
                     return;
                 }
 
+                clearFastSpinner();
+
                 console.log("start after hello");
                 menuPage.startPage(result);
                 menuPage.startRoomChoose(connectionService);
@@ -84,11 +86,9 @@ function startGame(elementDOM) {
         });
     };
 
-    getPushContainer().innerHTML = `<div class="cyclic-loader" style="margin: auto;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;"></div>`;
+    runFastSpinner();
     loadResourse((result) => {
-        getPushContainer().innerHTML = '';
+        /* clear spinner after HELLO */
 
         console.log(result);
         startConnect(result);
