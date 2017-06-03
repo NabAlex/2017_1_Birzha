@@ -173,9 +173,11 @@ class Tower {
         }
         if(this.cache.circle.alpha>=1 && this.dAlpha>0)
             this.dAlpha *= -1;
-        if(this.cache.circle.alpha<=0.65 && this.dAlpha<0)
+        if(this.cache.circle.alpha<=0.7 && this.dAlpha<0)
             this.dAlpha *= -1;
 
+        this.cache.circle.scaleX -= (this.dAlpha)/5;
+        this.cache.circle.scaleY -= (this.dAlpha)/5;
         this.cache.circle.alpha += this.dAlpha;
     }
 

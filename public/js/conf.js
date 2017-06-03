@@ -81,10 +81,12 @@ window.towerType = {
 };
 
 window.userColors = {
-    0: "red",
+    0: "turquoise",
     1: "green",
     2: "blue",
-    3: "yellow"
+    3: "orange",
+    4: "purple",
+    5: "bonus"
 };
 
 window.pushText = {
@@ -96,11 +98,12 @@ window.srcImages = {
     "lose": "/img/youlose.png"
 };
 window.userTowers = {
-    "red": "../img/nodes/green.png",
+    "turquoise": "../img/nodes/sea.png",
     "green": "../img/nodes/green.png",
-    "blue": "../img/nodes/green.png",
-    "yellow": "../img/nodes/green.png",
-    "bonus": "../img/nodes/green.png"
+    "blue": "../img/nodes/blue.png",
+    "orange": "../img/nodes/orange.png",
+    "purple": "../img/nodes/purple.png",
+    "bonus": "../img/nodes/brown.png"
 };
 
 window.areaConf = {

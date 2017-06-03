@@ -16,9 +16,10 @@ function loadResourse(callback) {
     let needFilesForProjectManifest = [
         {id: "playButton", src: "./img/play.png"},
         {id: "greenTower", src: userTowers["green"]},
-        {id: "redTower", src: userTowers["red"]},
+        {id: "turquoiseTower", src: userTowers["turquoise"]},
         {id: "blueTower", src: userTowers["blue"]},
-        {id: "yellowTower", src: userTowers["yellow"]},
+        {id: "orangeTower", src: userTowers["orange"]},
+        {id: "purpleTower", src: userTowers["purple"]},
         {id: "bonusTower", src: userTowers["bonus"]}
     ];
 
